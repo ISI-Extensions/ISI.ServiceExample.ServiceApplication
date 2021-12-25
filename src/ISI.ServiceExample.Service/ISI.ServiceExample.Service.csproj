@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Deterministic>false</Deterministic>
+		<Platforms>AnyCPU;x64</Platforms>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="..\ISI.ServiceExample.AssemblyInfo.cs" Link="Properties\ISI.ServiceExample.AssemblyInfo.cs" />
+		<Compile Include="..\ISI.ServiceExample.Version.cs" Link="Properties\ISI.ServiceExample.Version.cs" />
+		<None Include="..\ISI.ServiceExample.licenseheader" Link="ISI.ServiceExample.licenseheader" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="ISI.Extensions.Caching.MessageBus" Version="10.0.8028.36523" />
+		<PackageReference Include="ISI.Extensions" Version="10.0.8028.36523" />
+		<PackageReference Update="NETStandard.Library" Version="2.0.3" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ISI.ServiceExample\ISI.ServiceExample.csproj" />
+		<ProjectReference Include="..\ISI.Services.ServiceExample\ISI.Services.ServiceExample.csproj" />
+	</ItemGroup>
+</Project>

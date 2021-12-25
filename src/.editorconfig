@@ -1,0 +1,7 @@
+# Top-most EditorConfig file
+root = true
+
+[*]
+indent_style = tab
+end_of_line = crlf
+indent_size = 2

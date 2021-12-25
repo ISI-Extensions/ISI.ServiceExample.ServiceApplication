@@ -1,0 +1,43 @@
+{
+	"environments": [
+		{
+			"environmentName": "production"
+		},
+		{
+			"environmentName": "production-websites",
+			"inheritsFromEnvironmentName": "production"
+		},
+		{
+			"environmentName": "production-windowsservices",
+			"inheritsFromEnvironmentName": "production"
+		},
+		{
+			"environmentName": "uat"
+		},
+		{
+			"environmentName": "uat-websites",
+			"inheritsFromEnvironmentName": "uat"
+		},
+		{
+			"environmentName": "uat-windowsservices",
+			"inheritsFromEnvironmentName": "uat"
+		},
+		{
+			"environmentName": "qa"
+		},
+		{
+			"environmentName": "qa-websites",
+			"inheritsFromEnvironmentName": "qa"
+		},
+		{
+			"environmentName": "qa-windowsservices",
+			"inheritsFromEnvironmentName": "qa"
+		},
+		{
+			"environmentName": "development-ronmuth",
+			"machines": [
+				"ronmuth"
+			]
+		}
+	]
+}
