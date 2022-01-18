@@ -24,7 +24,7 @@ namespace ISI.Services.ServiceExample
 {
 	public class CachedObject : ISI.Extensions.Caching.IHasSettableCacheKeyWithInstanceUuidAndAbsoluteTimeExpiration
 	{
-		public static string GetCacheKey(Guid cachedObjectUuid) => string.Format("ISI.Services.ServiceExample.CachedObject[{0}]", cachedObjectUuid.Formatted(GuidExtensions.GuidFormat.WithHyphens));
+		public static string GetCacheKey(Guid cachedObjectUuid) =>  string.Format(ISI.Extensions.Caching.CacheKeyGenerators.GetCacheKeyFormat<CachedObject>(), cachedObjectUuid.Formatted(GuidExtensions.GuidFormat.WithHyphens));
 		public static string GetListCacheKey() => "ISI.Services.ServiceExample.CachedObject.ListCachedObjects";
 
 		public Guid CachedObjectUuid { get; set; }

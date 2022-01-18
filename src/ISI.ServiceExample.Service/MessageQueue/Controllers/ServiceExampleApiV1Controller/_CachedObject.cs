@@ -39,7 +39,7 @@ namespace ISI.ServiceExample.Service.MessageQueue.Controllers
 				CreatedBy = source.CreatedBy,
 				ModifiedOnUtc = source.ModifiedOnUtc,
 				ModifiedBy = source.ModifiedBy,
-				CacheKey = source.GetCacheKey(),
+				CacheKey = ISI.Services.ServiceExample.CachedObject.GetCacheKey(source.CachedObjectUuid),
 				CacheKeyInstanceUuid = source.GetCacheKeyInstanceUuid(),
 				CacheAbsoluteDateTimeExpiration = source.GetCacheAbsoluteTimeExpiration(),
 			};

@@ -18,11 +18,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ISI.Extensions.Extensions;
 
 namespace ISI.ServiceExample
 {
 	public class CachedObject : ISI.Extensions.Caching.IHasSettableCacheKeyWithInstanceUuidAndAbsoluteTimeExpiration
 	{
+		public static string GetCacheKey(Guid cachedObjectUuid) =>  string.Format(ISI.Extensions.Caching.CacheKeyGenerators.GetCacheKeyFormat<CachedObject>(), cachedObjectUuid.Formatted(GuidExtensions.GuidFormat.WithHyphens));
+		public static string GetListCacheKey() => "ISI.ServiceExample.CachedObject.ListCachedObjects";
+
 		public Guid CachedObjectUuid { get; set; }
 
 		public string Name { get; set; }

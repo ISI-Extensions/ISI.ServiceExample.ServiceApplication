@@ -33,7 +33,7 @@ namespace ISI.ServiceExample.Api
 
 			var cacheResponse = await CacheManager.GetOrCreateAsync(
 				request.CachedObjectUuids,
-				ISI.Services.ServiceExample.CachedObject.GetCacheKey,
+				ISI.ServiceExample.CachedObject.GetCacheKey,
 				async cachedObjectUuids =>
 				{
 					var repositoryResponse = await ServiceExampleRepository.GetCachedObjectsAsync(new RepositoryDTOs.GetCachedObjectsRequest()

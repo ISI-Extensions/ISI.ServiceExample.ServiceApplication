@@ -12,14 +12,14 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #endregion
- 
+
+using ISI.Extensions.Caching.Extensions;
+using ISI.Extensions.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ISI.Extensions.Caching.Extensions;
-using ISI.Extensions.Extensions;
 using DTOs = ISI.ServiceExample.DataTransferObjects.ServiceExampleApi;
 using RepositoryDTOs = ISI.ServiceExample.DataTransferObjects.ServiceExampleRepository;
 
@@ -30,7 +30,7 @@ namespace ISI.ServiceExample.Api
 		public async Task<DTOs.SetCachedObjectsResponse> SetCachedObjectsAsync(DTOs.SetCachedObjectsRequest request)
 		{
 			var response = new DTOs.SetCachedObjectsResponse();
-			
+
 			var repositoryResponse = await ServiceExampleRepository.SetCachedObjectsAsync(new RepositoryDTOs.SetCachedObjectsRequest()
 			{
 				CachedObjects = request.CachedObjects,
@@ -40,11 +40,14 @@ namespace ISI.ServiceExample.Api
 			response.CachedObjects = repositoryResponse.CachedObjects.ToNullCheckedArray(SetCacheKey, NullCheckCollectionResult.Empty);
 
 			CacheManager.Remove(response.CachedObjects.NullCheckedSelect(cachedObject => cachedObject.GetCacheKey()));
+			CacheManager.Remove(ISI.ServiceExample.CachedObject.GetListCacheKey());
+			
 			EnterpriseCacheManagerApi.ClearCache(new ISI.Extensions.Caching.DataTransferObjects.EnterpriseCacheManagerApi.ClearCacheRequest()
 			{
-				ItemsWithCacheKey = response.CachedObjects,
-				CacheKeys = new []{ ISI.Services.ServiceExample.CachedObject.GetListCacheKey() },
+				ItemsWithCacheKey = response.CachedObjects.ToNullCheckedArray(cachedObject => new ISI.Extensions.Caching.CacheKeyWithInstanceUuid(ISI.Services.ServiceExample.CachedObject.GetCacheKey(cachedObject.CachedObjectUuid), cachedObject)),
+				CacheKeys = new[] { ISI.Services.ServiceExample.CachedObject.GetListCacheKey() },
 			});
+			
 			CacheManager.AddRange(response.CachedObjects);
 
 			return response;

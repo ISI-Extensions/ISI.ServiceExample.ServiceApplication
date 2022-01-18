@@ -29,7 +29,7 @@ namespace ISI.ServiceExample.Api
 	{
 		private CachedObject SetCacheKey(CachedObject source)
 		{
-			source.SetCacheKeyAndCacheAbsoluteTimeExpirationAndCacheKeyInstanceUuid(ISI.Services.ServiceExample.CachedObject.GetCacheKey(source.CachedObjectUuid), DateTimeStamper.CurrentDateTimeUtc() + CacheManager.GetDefaultAbsoluteExpirationDuration());
+			source.SetCacheKeyAndCacheAbsoluteTimeExpirationAndCacheKeyInstanceUuid(ISI.ServiceExample.CachedObject.GetCacheKey(source.CachedObjectUuid), DateTimeStamper.CurrentDateTimeUtc() + CacheManager.GetDefaultAbsoluteExpirationDuration());
 
 			return source;
 		}
