@@ -31,7 +31,7 @@ namespace ISI.ServiceExample.Api
 		{
 			var response = new DTOs.ListCachedObjectsResponse();
 
-			response.CachedObjects = await CacheManager.GetOrCreateAsync(ISI.Services.ServiceExample.CachedObject.GetListCacheKey(), async () =>
+			response.CachedObjects = await CacheManager.GetOrCreateAsync(ISI.ServiceExample.CachedObject.GetListCacheKey(), async () =>
 			{
 				var repositoryResponse = await ServiceExampleRepository.ListCachedObjectsAsync(new RepositoryDTOs.ListCachedObjectsRequest()
 				{
