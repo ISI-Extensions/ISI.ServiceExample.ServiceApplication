@@ -72,6 +72,8 @@ Task("Build")
 			.SetPlatformTarget(PlatformTarget.MSIL)
 			.WithTarget("Build"));
 
+		var nupgkFiles = new FilePathCollection();
+
 		foreach(var project in solution.Projects.Where(project => project.Name.StartsWith("ISI.Services.")))
 		{
 			Information(project.Name);
@@ -124,17 +126,17 @@ Task("Build")
 
 			DeleteFile(nuspecFile);
 
-			var nupgkFile = File(nugetPackOutputDirectory + "/" + project.Name + "." + assemblyVersion + ".nupkg");
-
-			NupkgPush(new ISI.Cake.Addin.Nuget.NupkgPushRequest()
-			{
-				NupkgFullNames = new [] { nupgkFile.Path.FullPath },
-				ApiKey = settings.Nuget.ApiKey,
-				RepositoryName = settings.Nuget.RepositoryName,
-				RepositoryUri = GetNullableUri(settings.Nuget.RepositoryUrl),
-				PackageChunksRepositoryUri = GetNullableUri(settings.Nuget.PackageChunksRepositoryUrl),
-			});
+			nupgkFiles.Add(File(nugetPackOutputDirectory + "/" + project.Name + "." + assemblyVersion + ".nupkg"));
 		}
+
+		NupkgPush(new ISI.Cake.Addin.Nuget.NupkgPushRequest()
+		{
+			NupkgPaths = nupgkFiles,
+			ApiKey = settings.Nuget.ApiKey,
+			RepositoryName = settings.Nuget.RepositoryName,
+			RepositoryUri = GetNullableUri(settings.Nuget.RepositoryUrl),
+			PackageChunksRepositoryUri = GetNullableUri(settings.Nuget.PackageChunksRepositoryUrl),
+		});
 
 		CreateAssemblyInfo(assemblyVersionFile, new AssemblyInfoSettings()
 		{
