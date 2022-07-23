@@ -1,28 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<LangVersion>latest</LangVersion>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<Deterministic>false</Deterministic>
-		<Platforms>AnyCPU;x64</Platforms>
-	</PropertyGroup>
-	<ItemGroup>
-		<Compile Include="..\ISI.ServiceExample.AssemblyInfo.cs" Link="Properties\ISI.ServiceExample.AssemblyInfo.cs" />
-		<Compile Include="..\ISI.ServiceExample.Version.cs" Link="Properties\ISI.ServiceExample.Version.cs" />
-		<None Include="..\ISI.ServiceExample.licenseheader" Link="ISI.ServiceExample.licenseheader" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.18.0" />
-		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-		<PackageReference Include="ISI.Extensions.Repository.Cosmos" Version="10.0.8166.31613" />
-		<PackageReference Include="ISI.Extensions" Version="10.0.8166.31613" />
-		<PackageReference Update="NETStandard.Library" Version="2.0.3" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\ISI.ServiceExample\ISI.ServiceExample.csproj" />
-		<ProjectReference Include="..\ISI.ServiceExample.Repository\ISI.ServiceExample.Repository.csproj" />
-	</ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\ISI.ServiceExample.AssemblyInfo.cs" Link="Properties\ISI.ServiceExample.AssemblyInfo.cs" />
+    <Compile Include="..\ISI.ServiceExample.Version.cs" Link="Properties\ISI.ServiceExample.Version.cs" />
+    <None Include="..\ISI.ServiceExample.licenseheader" Link="ISI.ServiceExample.licenseheader" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.18.0" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="ISI.Extensions.Repository.Cosmos" Version="10.0.8236.34098" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.8236.34098" />
+    <PackageReference Update="NETStandard.Library" Version="2.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ISI.ServiceExample\ISI.ServiceExample.csproj" />
+    <ProjectReference Include="..\ISI.ServiceExample.Repository\ISI.ServiceExample.Repository.csproj" />
+  </ItemGroup>
 </Project>
