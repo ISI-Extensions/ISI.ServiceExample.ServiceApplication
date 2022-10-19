@@ -15,10 +15,10 @@
     <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.18.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-    <PackageReference Include="ISI.Extensions.Repository.Cosmos" Version="10.0.8265.1953" />
-    <PackageReference Include="ISI.Extensions" Version="10.0.8265.1953" />
+    <PackageReference Include="ISI.Extensions.Repository.Cosmos" Version="10.0.8326.21241" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.8326.21241" />
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
