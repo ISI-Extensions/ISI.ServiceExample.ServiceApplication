@@ -56,14 +56,14 @@ namespace ISI.ServiceExample.MigrationTool.SqlServer
 			configurationBuilder.AddClassicConnectionStringsSectionFile($"{connectionStringPath}connectionStrings.config");
 			configurationBuilder.AddClassicConnectionStringsSectionFiles(activeEnvironment.ActiveEnvironments, environment => $"{connectionStringPath}connectionStrings.{environment}.config");
 
-			var configuration = configurationBuilder.Build();
+			var configurationRoot = configurationBuilder.Build().ApplyConfigurationValueReaders();
 
 			var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection()
 				.AddOptions()
-				.AddSingleton<Microsoft.Extensions.Configuration.IConfiguration>(configuration)
-				.AddConfigurationRegistrations(configuration)
-				//.AddSingleton<Microsoft.Extensions.Logging.ILoggerFactory, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory>()
-				.AddSingleton<Microsoft.Extensions.Logging.ILoggerFactory, Microsoft.Extensions.Logging.LoggerFactory>()
+				.AddSingleton<Microsoft.Extensions.Configuration.IConfiguration>(configurationRoot)
+				.AddConfigurationRegistrations(configurationRoot)
+				.AddSingleton<Microsoft.Extensions.Logging.ILoggerFactory, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory>()
+				//.AddSingleton<Microsoft.Extensions.Logging.ILoggerFactory, Microsoft.Extensions.Logging.LoggerFactory>()
 				.AddLogging(builder => builder
 						.AddConsole()
 					//.AddFilter(level => level >= Microsoft.Extensions.Logging.LogLevel.Information)
@@ -71,9 +71,9 @@ namespace ISI.ServiceExample.MigrationTool.SqlServer
 				.AddTransient<Microsoft.Extensions.Logging.ILogger>(serviceProvider => serviceProvider.GetService<ILoggerFactory>().CreateLogger<Program>())
 				.ProcessServiceRegistrars();
 
-			configuration.AddAllConfigurations(services);
+			configurationRoot.AddAllConfigurations(services);
 
-			var serviceProvider = services.BuildServiceProvider(configuration);
+			var serviceProvider = services.BuildServiceProvider(configurationRoot);
 
 			var logger = serviceProvider.GetService<Microsoft.Extensions.Logging.ILogger>();
 			var dateTimeStamper = serviceProvider.GetService<ISI.Extensions.DateTimeStamper.IDateTimeStamper>();
@@ -81,7 +81,7 @@ namespace ISI.ServiceExample.MigrationTool.SqlServer
 			var serializer = serviceProvider.GetService<ISI.Extensions.JsonSerialization.IJsonSerializer>();
 
 			var repositoryConfiguration = serviceProvider.GetService<ISI.ServiceExample.Repository.SqlServer.Configuration>();
-			var repositorySetupApi = new ISI.Extensions.Repository.SqlServer.RepositorySetupApi(configuration, logger, dateTimeStamper, serializer, repositoryConfiguration.ConnectionString);
+			var repositorySetupApi = new ISI.Extensions.Repository.SqlServer.RepositorySetupApi(configurationRoot, logger, dateTimeStamper, serializer, repositoryConfiguration.ConnectionString);
 
 			var migrationToolApi = new ISI.Extensions.Repository.MigrationApi(serviceProvider, repositorySetupApi);
 
