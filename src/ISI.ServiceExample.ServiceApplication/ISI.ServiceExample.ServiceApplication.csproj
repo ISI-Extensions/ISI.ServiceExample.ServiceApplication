@@ -39,11 +39,11 @@
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.1.0" />
     <PackageReference Include="Topshelf" Version="4.3.0" />
     <PackageReference Include="Topshelf.Serilog" Version="4.3.0" />
-    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.8408.6604" />
-    <PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.8408.6604" />
-    <PackageReference Include="ISI.Extensions.MessageBus.MassTransit.RabbitMQ" Version="10.0.8408.6604" />
-    <PackageReference Include="ISI.Extensions.Caching.Redis" Version="10.0.8408.6604" />
-    <PackageReference Include="ISI.Extensions" Version="10.0.8408.6604" />
+    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.8418.31688" />
+    <PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.8418.31688" />
+    <PackageReference Include="ISI.Extensions.MessageBus.MassTransit.RabbitMQ" Version="10.0.8418.31688" />
+    <PackageReference Include="ISI.Extensions.Caching.Redis" Version="10.0.8418.31688" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.8418.31688" />
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
