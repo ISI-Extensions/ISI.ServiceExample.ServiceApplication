@@ -28,7 +28,7 @@ namespace ISI.ServiceExample.Service
 		public void ServiceRegister(Microsoft.Extensions.DependencyInjection.IServiceCollection services)
 		{
 			services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService, ServiceManager>();
-			services.AddSingleton<ISI.Extensions.IServiceManager, ServiceManager>();
+			services.AddSingleton<ISI.Extensions.Services.IServiceManagerAsync, ServiceManager>();
 		}
 	}
 }

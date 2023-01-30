@@ -29,6 +29,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Exceptions;
 using Topshelf;
+using ISI.Extensions.Services.Extensions;
 
 namespace ISI.ServiceExample.ServiceApplication
 {
@@ -36,6 +37,8 @@ namespace ISI.ServiceExample.ServiceApplication
 	{
 		public static int Main()
 		{
+			var arguments = Environment.GetCommandLineArgs();
+
 			var configurationBuilder = new Microsoft.Extensions.Configuration.ConfigurationBuilder();
 
 			var configurationsPath = string.Format("Configuration{0}", System.IO.Path.DirectorySeparatorChar);
@@ -111,29 +114,29 @@ namespace ISI.ServiceExample.ServiceApplication
 					recoveryConfig.SetResetPeriod(1); // set the reset interval to one day
 				});
 
-				hostConfigurator.Service<ISI.Extensions.IServiceManager>(configurator =>
+				hostConfigurator.Service<ISI.Extensions.Services.IServiceManagerAsync>(configurator =>
 				{
-					configurator.ConstructUsing(serviceFactory => serviceProvider.GetService<ISI.Extensions.IServiceManager>());
+					configurator.ConstructUsing(serviceFactory => serviceProvider.GetService<ISI.Extensions.Services.IServiceManagerAsync>());
 					configurator.WhenStarted((service, control) =>
 					{
 						control.RequestAdditionalTime(TimeSpan.FromMinutes(10));
-						service.StartAsync(System.Threading.CancellationToken.None).Wait();
+						service.StartAsync(configuration, activeEnvironment.ActiveEnvironment, arguments, System.Threading.CancellationToken.None, serviceProvider).Wait();
 						return true;
 					});
 					configurator.WhenStopped((service, control) =>
 					{
-						service.StopAsync(System.Threading.CancellationToken.None).Wait();
+						service.StopAsync(configuration, activeEnvironment.ActiveEnvironment, arguments, System.Threading.CancellationToken.None, serviceProvider).Wait();
 						return true;
 					});
 				});
 
-				hostConfigurator.BeforeInstall(settings => { serviceProvider.GetService<ISI.Extensions.IServiceManager>().BeforeInstall(); });
+				hostConfigurator.BeforeInstall(settings => { serviceProvider.GetService<ISI.Extensions.Services.IServiceManagerAsync>().BeforeInstallAsync(configuration, activeEnvironment.ActiveEnvironment, arguments, System.Threading.CancellationToken.None, serviceProvider); });
 
-				hostConfigurator.AfterInstall(settings => { serviceProvider.GetService<ISI.Extensions.IServiceManager>().AfterInstall(); });
+				hostConfigurator.AfterInstall(settings => { serviceProvider.GetService<ISI.Extensions.Services.IServiceManagerAsync>().AfterInstallAsync(configuration, activeEnvironment.ActiveEnvironment, arguments, System.Threading.CancellationToken.None, serviceProvider); });
 
-				hostConfigurator.BeforeUninstall(() => { serviceProvider.GetService<ISI.Extensions.IServiceManager>().BeforeUninstall(); });
+				hostConfigurator.BeforeUninstall(() => { serviceProvider.GetService<ISI.Extensions.Services.IServiceManagerAsync>().BeforeUninstallAsync(configuration, activeEnvironment.ActiveEnvironment, arguments, System.Threading.CancellationToken.None, serviceProvider); });
 
-				hostConfigurator.AfterUninstall(() => { serviceProvider.GetService<ISI.Extensions.IServiceManager>().AfterUninstall(); });
+				hostConfigurator.AfterUninstall(() => { serviceProvider.GetService<ISI.Extensions.Services.IServiceManagerAsync>().AfterUninstallAsync(configuration, activeEnvironment.ActiveEnvironment, arguments, System.Threading.CancellationToken.None, serviceProvider); });
 			});
 		}
 

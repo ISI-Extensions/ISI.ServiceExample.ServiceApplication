@@ -12,7 +12,7 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #endregion
- 
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,13 +21,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ISI.ServiceExample.Service
 {
-	public class ServiceManager : Microsoft.Extensions.Hosting.IHostedService, ISI.Extensions.IServiceManager
+	public class ServiceManager : Microsoft.Extensions.Hosting.IHostedService, ISI.Extensions.Services.IServiceManagerAsync
 	{
 		protected System.IServiceProvider ServiceProvider { get; }
 		protected Microsoft.Extensions.Logging.ILogger Logger { get; }
 		protected ISI.Extensions.MessageBus.IMessageBus MessageBus { get; }
 
-		public ISI.Extensions.ServiceManager.Status Status { get; private set; }
+		public ISI.Extensions.Services.Status Status { get; private set; }
 
 		public ServiceManager(
 			System.IServiceProvider serviceProvider,
@@ -39,7 +39,8 @@ namespace ISI.ServiceExample.Service
 			MessageBus = messageBus;
 		}
 
-		public async Task StartAsync(System.Threading.CancellationToken cancellationToken)
+		Task Microsoft.Extensions.Hosting.IHostedService.StartAsync(System.Threading.CancellationToken cancellationToken) => StartAsync(new ISI.Extensions.Services.ServiceContextAsync() { CancellationToken = cancellationToken });
+		public async Task<bool> StartAsync(ISI.Extensions.Services.IServiceContextAsync serviceContext)
 		{
 			MessageBus.Build(ServiceProvider, new ISI.Extensions.MessageBus.MessageBusBuildRequestCollection()
 			{
@@ -47,30 +48,24 @@ namespace ISI.ServiceExample.Service
 				ISI.Extensions.Caching.MessageBus.Subscriptions.GetAddSubscriptions,
 			});
 
-			await MessageBus.StartAsync(cancellationToken);
+			await MessageBus.StartAsync(serviceContext.CancellationToken);
+
+			return true;
 		}
 
-		public async Task StopAsync(System.Threading.CancellationToken cancellationToken)
+		Task Microsoft.Extensions.Hosting.IHostedService.StopAsync(System.Threading.CancellationToken cancellationToken) => StopAsync(new ISI.Extensions.Services.ServiceContextAsync() { CancellationToken = cancellationToken });
+		public async Task<bool> StopAsync(ISI.Extensions.Services.IServiceContextAsync serviceContext)
 		{
-			await MessageBus.StopAsync(cancellationToken);
+			await MessageBus.StopAsync(serviceContext.CancellationToken);
 
 			ISI.Extensions.Threads.ExitAll();
+
+			return true;
 		}
 
-		public void BeforeInstall()
-		{
-		}
-
-		public void AfterInstall()
-		{
-		}
-
-		public void BeforeUninstall()
-		{
-		}
-
-		public void AfterUninstall()
-		{
-		}
+		public Task BeforeInstallAsync(ISI.Extensions.Services.IServiceContextAsync serviceContext) => Task.CompletedTask;
+		public Task AfterInstallAsync(ISI.Extensions.Services.IServiceContextAsync serviceContext) => Task.CompletedTask;
+		public Task BeforeUninstallAsync(ISI.Extensions.Services.IServiceContextAsync serviceContext) => Task.CompletedTask;
+		public Task AfterUninstallAsync(ISI.Extensions.Services.IServiceContextAsync serviceContext) => Task.CompletedTask;
 	}
 }
