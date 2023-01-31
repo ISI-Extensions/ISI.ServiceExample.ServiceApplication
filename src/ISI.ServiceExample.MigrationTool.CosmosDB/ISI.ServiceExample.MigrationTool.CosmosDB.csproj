@@ -7,7 +7,6 @@
     <Platforms>AnyCPU;x64</Platforms>
     <ApplicationIcon>ISI.ico</ApplicationIcon>
     <OutputType>Exe</OutputType>
-    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\ISI.ServiceExample.AssemblyInfo.cs" Link="Properties\ISI.ServiceExample.AssemblyInfo.cs" />
@@ -25,8 +24,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="7.0.0" />
-    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.8430.33847" />
-    <PackageReference Include="ISI.Extensions" Version="10.0.8430.33847" />
+    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.8431.30311" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.8431.30311" />
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>

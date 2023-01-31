@@ -32,7 +32,7 @@ namespace ISI.ServiceExample.Api.Tests
 			configurationBuilder.AddJsonFile("appsettings.json", optional: false);
 			configurationBuilder.AddJsonFiles(activeEnvironment.ActiveEnvironments, environment => $"appsettings.{environment}.json");
 
-			var connectionStringPath = string.Format("Configuration{0}ConnectionStrings{0}", System.IO.Path.DirectorySeparatorChar);
+			var connectionStringPath = string.Format("Configuration{0}", System.IO.Path.DirectorySeparatorChar);
 
 			configurationBuilder.AddClassicConnectionStringsSectionFile($"{connectionStringPath}connectionStrings.config");
 			configurationBuilder.AddClassicConnectionStringsSectionFiles(activeEnvironment.ActiveEnvironments, environment => $"{connectionStringPath}connectionStrings.{environment}.config");

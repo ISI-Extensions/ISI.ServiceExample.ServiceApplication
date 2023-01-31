@@ -1,6 +1,8 @@
+//dotnet tool install Cake.Tool -g
 #addin nuget:?package=Cake.FileHelpers
+#tool nuget:?package=7-Zip.CommandLine
+#addin nuget:?package=Cake.7zip
 #addin nuget:?package=ISI.Cake.AddIn&loaddependencies=true
-#addin nuget:?package=Cake.Docker&version=1.0.0
 
 //mklink /D Secrets S:\
 var settingsFullName = System.IO.Path.Combine(System.Environment.GetEnvironmentVariable("LocalAppData"), "Secrets", "ISI.keyValue");
@@ -26,6 +28,8 @@ var nugetPackOutputDirectory = Argument("NugetPackOutputDirectory", "../Nuget");
 Task("Clean")
 	.Does(() =>
 	{
+		Information("Cleaning Projects ...");
+
 		foreach(var projectPath in solution.Projects.Select(p => p.Path.GetDirectory()))
 		{
 			Information("Cleaning {0}", projectPath);
@@ -33,7 +37,8 @@ Task("Clean")
 			CleanDirectories(projectPath + "/**/obj/" + configuration);
 		}
 
-		Information("Cleaning Projects ...");
+		Information("Cleaning {0}", nugetPackOutputDirectory);
+		CleanDirectories(nugetPackOutputDirectory);
 	});
 
 Task("NugetPackageRestore")
@@ -72,9 +77,83 @@ Task("Build")
 			.SetPlatformTarget(PlatformTarget.MSIL)
 			.WithTarget("Build"));
 
-		var nupgkFiles = new FilePathCollection();
+		CreateAssemblyInfo(assemblyVersionFile, new AssemblyInfoSettings()
+		{
+			Version = GetAssemblyVersion(assemblyVersion, "*"),
+		});
+	});
 
-		foreach(var project in solution.Projects.Where(project => project.Name.StartsWith("ISI.Services.")))
+
+Task("Sign")
+	.IsDependentOn("Build")
+	.Does(() =>
+	{
+		if (settings.CodeSigning.DoCodeSigning && configuration.Equals("Release"))
+		{
+			var files = GetFiles("./**/bin/" + configuration + "/**/ISI.ServiceExample.*.dll");
+			files.Add(GetFiles("./**/bin/" + configuration + "/**/ISI.ServiceExample.dll"));
+			files.Add(GetFiles("./**/bin/" + configuration + "/**/ISI.ServiceExample.*.exe"));
+			files.Add(GetFiles("./**/bin/" + configuration + "/**/ISI.Services.ServiceExample.dll"));
+
+			if(files.Any())
+			{
+				using(var tempDirectory = GetNewTempDirectory())
+				{
+					tempDirectory.DeleteDirectory = false;
+
+					foreach(var file in files)
+					{
+						var tempFile = File(tempDirectory.FullName + "/" + file.GetFilename());
+
+						if(!tempFile.Path.FullPath.EndsWith(".Tests.dll", StringComparison.InvariantCultureIgnoreCase) &&
+							 !tempFile.Path.FullPath.EndsWith("ISI.ServiceExample.MigrationTool.CosmosDB.dll", StringComparison.InvariantCultureIgnoreCase) &&
+							 !tempFile.Path.FullPath.EndsWith("ISI.ServiceExample.MigrationTool.CosmosDB.exe", StringComparison.InvariantCultureIgnoreCase))
+						{
+							if(System.IO.File.Exists(tempFile.Path.FullPath))
+							{
+								DeleteFile(tempFile);
+							}
+
+							CopyFile(file, tempFile);
+						}
+					}
+
+					var tempFiles = GetFiles(tempDirectory.FullName + "/*.dll");
+					tempFiles.Add(GetFiles(tempDirectory.FullName + "/*.exe"));
+
+					SignAssemblies(new ISI.Cake.Addin.CodeSigning.SignAssembliesUsingSettingsRequest()
+					{
+						AssemblyPaths = tempFiles,
+						Settings = settings,
+					});
+
+					foreach(var file in files)
+					{
+						var tempFile = File(tempDirectory.FullName + "/" + file.GetFilename());
+
+						if(System.IO.File.Exists(tempFile.Path.FullPath))
+						{
+							DeleteFile(file);
+
+							CopyFile(tempFile, file);
+						}
+					}
+				}
+			}
+		}
+	});
+
+Task("Nuget")
+	.IsDependentOn("Sign")
+	.Does(() =>
+	{
+		var sourceControlUrl = GetSolutionSourceControlUrl();
+		var nupkgFiles = new FilePathCollection();
+
+		foreach(var project in solution.Projects.Where(project => project.Path.FullPath.EndsWith(".csproj") && 
+																															project.Name.StartsWith("ISI.Services.") && 
+																															!project.Name.EndsWith(".Tests"))
+																						.OrderBy(project => project.Name, StringComparer.InvariantCultureIgnoreCase))
 		{
 			Information(project.Name);
 
@@ -85,7 +164,7 @@ Task("Build")
 				{
 					if (package.StartsWith("ISI.Services", StringComparison.InvariantCultureIgnoreCase))
 					{
-						version = assemblyVersion;
+						version =  assemblyVersion;
 						return true;
 					}
 
@@ -93,9 +172,38 @@ Task("Build")
 					return false;
 				}
 			}).Nuspec;
+
+			var files = new List<ISI.Extensions.Nuget.NuspecFile>(nuspec.Files ?? new ISI.Extensions.Nuget.NuspecFile[0]);
+
+			{
+				var pdbFile = File(project.Path.GetDirectory() + "/bin/" + configuration + "/" + project.Name + ".pdb");
+				if(FileExists(pdbFile))
+				{
+					files.Add(new ISI.Extensions.Nuget.NuspecFile()
+					{
+						Target = "lib/net48",
+						SourcePattern = pdbFile.Path.FullPath,
+					});
+				}
+			}
+
+			{
+				var pdbFile = File(project.Path.GetDirectory() + "/bin/" + configuration + "/netstandard2.0/" + project.Name + ".pdb");
+				if(FileExists(pdbFile))
+				{
+					files.Add(new ISI.Extensions.Nuget.NuspecFile()
+					{
+						Target = "lib/netstandard2.0",
+						SourcePattern = pdbFile.Path.FullPath,
+					});
+				}
+			}
+
+			nuspec.Files = files;
+
 			nuspec.Version = assemblyVersion;
 			nuspec.IconUri = GetNullableUri(@"https://nuget.isi-net.com/Images/Lantern.png");
-			nuspec.ProjectUri = GetNullableUri(@"https://git.isi-net.com/ISI/ISI.ServiceExample.ServiceApplication");
+			nuspec.ProjectUri = GetNullableUri(sourceControlUrl);
 			nuspec.Title = project.Name;
 			nuspec.Description = project.Name;
 			nuspec.Copyright = string.Format("Copyright (c) {0}, Integrated Solutions, Inc.", DateTime.Now.Year);
@@ -126,28 +234,35 @@ Task("Build")
 
 			DeleteFile(nuspecFile);
 
-			nupgkFiles.Add(File(nugetPackOutputDirectory + "/" + project.Name + "." + assemblyVersion + ".nupkg"));
+			nupkgFiles.Add(File(nugetPackOutputDirectory + "/" + project.Name + "." + assemblyVersion + ".nupkg"));
 		}
+
+		if(settings.CodeSigning.DoCodeSigning)
+		{
+			SignNupkgs(new ISI.Cake.Addin.CodeSigning.SignNupkgsUsingSettingsRequest()
+			{
+				NupkgPaths = nupkgFiles,
+				Settings = settings,
+			});
+		}
+	});
+
+
+Task("Publish")
+	.IsDependentOn("Nuget")
+	.Does(() =>
+	{
+		var nupkgFiles = GetFiles(MakeAbsolute(Directory(nugetPackOutputDirectory)) + "/*.nupkg");
 
 		NupkgPush(new ISI.Cake.Addin.Nuget.NupkgPushRequest()
 		{
-			NupkgPaths = nupgkFiles,
+			NupkgPaths = nupkgFiles,
 			ApiKey = settings.Nuget.ApiKey,
 			RepositoryName = settings.Nuget.RepositoryName,
 			RepositoryUri = GetNullableUri(settings.Nuget.RepositoryUrl),
 			PackageChunksRepositoryUri = GetNullableUri(settings.Nuget.PackageChunksRepositoryUrl),
 		});
 
-		CreateAssemblyInfo(assemblyVersionFile, new AssemblyInfoSettings()
-		{
-			Version = GetAssemblyVersion(assemblyVersion, "*"),
-		});
-	});
-
-Task("Publish")
-	.IsDependentOn("Build")
-	.Does(() =>
-	{
 		//DockerTag("isiserviceexampleserviceapplication", "repo/isiserviceexampleserviceapplication:latest");
 		//DockerPush("repo/isiserviceexampleserviceapplication:latest");
 	});
