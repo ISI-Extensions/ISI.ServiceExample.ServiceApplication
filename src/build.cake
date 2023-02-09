@@ -11,11 +11,11 @@ var settings = GetSettings(settingsFullName);
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
-var solutionPath = File("./ISI.ServiceExample.ServiceApplication.sln");
-var solution = ParseSolution(solutionPath);
-
-var assemblyVersionFile = File("./ISI.ServiceExample.Version.cs");
-var rootProjectPath = File("./ISI.ServiceExample.ServiceApplication/ISI.ServiceExample.ServiceApplication.csproj");
+var solutionFile = File("./ISI.ServiceExample.ServiceApplication.sln");
+var solution = ParseSolution(solutionFile);
+var rootProjectFile = File("./ISI.ServiceExample.ServiceApplication/ISI.ServiceExample.ServiceApplication.csproj");
+var rootAssemblyVersionKey = "ISI.ServiceExample";
+var artifactName = "ISI.ServiceExample.ServiceApplication";
 
 var buildDateTime = DateTime.UtcNow;
 var buildDateTimeStamp = GetDateTimeStamp(buildDateTime);
@@ -29,6 +29,8 @@ var buildDateTimeStampVersion = new ISI.Extensions.Scm.DateTimeStampVersion(buil
 Information("BuildDateTimeStampVersion: {0}", buildDateTimeStampVersion);
 
 var nugetPackOutputDirectory = Argument("NugetPackOutputDirectory", "../Nuget");
+
+var buildArtifactZipFile = File(string.Format("../Publish/{0}.{1}.zip", artifactName, buildDateTimeStamp));
 
 Task("Clean")
 	.Does(() =>
@@ -51,43 +53,32 @@ Task("NugetPackageRestore")
 	.Does(() =>
 	{
 		Information("Restoring Nuget Packages ...");
-		NuGetRestore(solutionPath);
+		using(GetNugetLock())
+		{
+			NuGetRestore(solutionFile);
+		}
 	});
 
 Task("Build")
 	.IsDependentOn("NugetPackageRestore")
 	.Does(() => 
 	{
-		CreateAssemblyInfo(assemblyVersionFile, new AssemblyInfoSettings()
+		SetAssemblyVersionFiles(assemblyVersions);
+
+		try
 		{
-			Version = assemblyVersion,
-		});
-
-		//Docker Image
-		MSBuild(rootProjectPath.Path.FullPath, configurator => configurator
-			.SetVerbosity(Verbosity.Quiet)
-			.SetConfiguration(configuration)
-			.WithProperty("DeployOnBuild", "true")
-			.WithProperty("PublishProfile", "FolderProfile.pubxml")
-			.SetMaxCpuCount(0)
-			.SetNodeReuse(false)
-			.WithTarget("Rebuild"));
-
-
-		//Nuget Package(s)
-		MSBuild(solutionPath, configurator => configurator
-			.SetConfiguration(configuration)
-			.SetVerbosity(Verbosity.Quiet)
-			.SetMSBuildPlatform(MSBuildPlatform.Automatic)
-			.SetPlatformTarget(PlatformTarget.MSIL)
-			.WithTarget("Build"));
-
-		CreateAssemblyInfo(assemblyVersionFile, new AssemblyInfoSettings()
+			MSBuild(solutionFile, configurator => configurator
+				.SetConfiguration(configuration)
+				.SetVerbosity(Verbosity.Quiet)
+				.SetMSBuildPlatform(MSBuildPlatform.x64)
+				.SetPlatformTarget(PlatformTarget.MSIL)
+				.WithTarget("Rebuild"));
+		}
+		finally
 		{
-			Version = GetAssemblyVersion(assemblyVersion, "*"),
-		});
+			ResetAssemblyVersionFiles(assemblyVersions);
+		}
 	});
-
 
 Task("Sign")
 	.IsDependentOn("Build")
@@ -99,28 +90,22 @@ Task("Sign")
 			files.Add(GetFiles("./**/bin/" + configuration + "/**/ISI.ServiceExample.dll"));
 			files.Add(GetFiles("./**/bin/" + configuration + "/**/ISI.ServiceExample.*.exe"));
 			files.Add(GetFiles("./**/bin/" + configuration + "/**/ISI.Services.ServiceExample.dll"));
+			files.Add(GetFiles("./**/bin/" + configuration + "/**/ISI.Services.ServiceExample.*.dll"));
 
 			if(files.Any())
 			{
 				using(var tempDirectory = GetNewTempDirectory())
 				{
-					tempDirectory.DeleteDirectory = false;
-
 					foreach(var file in files)
 					{
 						var tempFile = File(tempDirectory.FullName + "/" + file.GetFilename());
 
-						if(!tempFile.Path.FullPath.EndsWith(".Tests.dll", StringComparison.InvariantCultureIgnoreCase) &&
-							 !tempFile.Path.FullPath.EndsWith("ISI.ServiceExample.MigrationTool.CosmosDB.dll", StringComparison.InvariantCultureIgnoreCase) &&
-							 !tempFile.Path.FullPath.EndsWith("ISI.ServiceExample.MigrationTool.CosmosDB.exe", StringComparison.InvariantCultureIgnoreCase))
+						if(System.IO.File.Exists(tempFile.Path.FullPath))
 						{
-							if(System.IO.File.Exists(tempFile.Path.FullPath))
-							{
-								DeleteFile(tempFile);
-							}
-
-							CopyFile(file, tempFile);
+							DeleteFile(tempFile);
 						}
+
+						CopyFile(file, tempFile);
 					}
 
 					var tempFiles = GetFiles(tempDirectory.FullName + "/*.dll");
@@ -136,19 +121,16 @@ Task("Sign")
 					{
 						var tempFile = File(tempDirectory.FullName + "/" + file.GetFilename());
 
-						if(System.IO.File.Exists(tempFile.Path.FullPath))
-						{
-							DeleteFile(file);
+						DeleteFile(file);
 
-							CopyFile(tempFile, file);
-						}
+						CopyFile(tempFile, file);
 					}
 				}
 			}
 		}
 	});
 
-Task("Nuget")
+Task("Package")
 	.IsDependentOn("Sign")
 	.Does(() =>
 	{
@@ -250,10 +232,40 @@ Task("Nuget")
 				Settings = settings,
 			});
 		}
+
+		PackageComponents(new ISI.Cake.Addin.PackageComponents.PackageComponentsRequest()
+		{
+			Configuration = configuration,
+			BuildPlatform = MSBuildPlatform.x64,
+			SubDirectory = "ISI",
+			PackageComponents = new ISI.Cake.Addin.PackageComponents.IPackageComponent[] 
+			{
+				new ISI.Cake.Addin.PackageComponents.PackageComponentConsoleApplication()
+				{
+					ProjectFullName = File("./ISI.ServiceExample.MigrationTool.SqlServer/ISI.ServiceExample.MigrationTool.SqlServer.csproj").Path.FullPath,
+					IconFullName = File("./Lantern.ico").Path.FullPath,
+				},
+				new ISI.Cake.Addin.PackageComponents.PackageComponentWindowsService()
+				{
+					ProjectFullName = rootProjectFile.Path.FullPath,
+					IconFullName = File("./Lantern.ico").Path.FullPath,
+				},
+			},
+			PackageFullName = buildArtifactZipFile.Path.FullPath,
+			PackageVersion = assemblyVersion,
+			PackageBuildDateTimeStamp = buildDateTimeStamp,
+		});
+		
+		DeleteAgedPackages(new ISI.Cake.Addin.PackageComponents.DeleteAgedPackagesRequest()
+		{
+			PackagesDirectory = buildArtifactZipFile.Path.GetDirectory().FullPath,
+			PackageName = artifactName,
+			PackageNameExtension = "zip",
+		});		
 	});
 
 Task("Publish")
-	.IsDependentOn("Nuget")
+	.IsDependentOn("Package")
 	.Does(() =>
 	{
 		var nupkgFiles = GetFiles(MakeAbsolute(Directory(nugetPackOutputDirectory)) + "/*.nupkg");
@@ -267,16 +279,80 @@ Task("Publish")
 			PackageChunksRepositoryUri = GetNullableUri(settings.Nuget.PackageChunksRepositoryUrl),
 		});
 
-		//DockerTag("isiserviceexampleserviceapplication", "repo/isiserviceexampleserviceapplication:latest");
-		//DockerPush("repo/isiserviceexampleserviceapplication:latest");
-	});
+		var authenticationToken = GetAuthenticationToken(new ISI.Cake.Addin.Scm.GetAuthenticationTokenRequest()
+		{
+			ScmManagementUrl = settings.Scm.WebServiceUrl,
+			UserName = settings.ActiveDirectory.UserName,
+			Password = settings.ActiveDirectory.Password,
+		}).AuthenticationToken;
 
+		UploadArtifact(new ISI.Cake.Addin.BuildArtifacts.UploadArtifactRequest()
+		{
+			BuildArtifactManagementUrl = settings.Scm.WebServiceUrl,
+			AuthenticationToken = authenticationToken,
+			SourceFileName = buildArtifactZipFile.Path.FullPath,
+			ArtifactName = artifactName,
+			DateTimeStampVersion = buildDateTimeStampVersion,
+		});
+
+		SetArtifactEnvironmentDateTimeStampVersion(new ISI.Cake.Addin.BuildArtifacts.SetArtifactEnvironmentDateTimeStampVersionRequest()
+		{
+			BuildArtifactManagementUrl = settings.Scm.WebServiceUrl,
+			AuthenticationToken = authenticationToken,
+			ArtifactName = artifactName,
+			Environment = "Build",
+			DateTimeStampVersion = buildDateTimeStampVersion,
+		});
+	});
+	
 Task("Production-Deploy")
 	.Does(() => 
 	{
-		//DockerTag("isiserviceexampleserviceapplication", "repo/isiserviceexampleserviceapplication:production");
-		//DockerTag("repo/isiserviceexampleserviceapplication:latest", "repo/isiserviceexampleserviceapplication:production");
-		//DockerPush("repo/isiserviceexampleserviceapplication:production");
+		var authenticationToken = GetAuthenticationToken(new ISI.Cake.Addin.Scm.GetAuthenticationTokenRequest()
+		{
+			ScmManagementUrl = settings.Scm.WebServiceUrl,
+			UserName = settings.ActiveDirectory.UserName,
+			Password = settings.ActiveDirectory.Password,
+		}).AuthenticationToken;
+
+		var dateTimeStampVersion = GetBuildArtifactEnvironmentDateTimeStampVersion(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactEnvironmentDateTimeStampVersionRequest()
+		{
+			BuildArtifactManagementUrl = settings.Scm.WebServiceUrl,
+			AuthenticationToken = authenticationToken,
+			ArtifactName = artifactName,
+			Environment = "Build",
+		}).DateTimeStampVersion;
+
+		DeployArtifact(new ISI.Cake.Addin.DeploymentManager.DeployArtifactRequest()
+		{
+			ServicesManagerUrl = settings.GetValue("PRODUCTION-SERVER-DeployManager-Url"),
+			Password = settings.GetValue("PRODUCTION-SERVER-DeployManager-Password"),
+
+			AuthenticationToken = authenticationToken,
+
+			BuildArtifactManagementUrl = settings.Scm.WebServiceUrl,
+			ArtifactName = artifactName,
+			ToDateTimeStamp = dateTimeStampVersion,
+			ToEnvironment = "Production",
+			ConfigurationKey = "Production",
+			Components = new ISI.Cake.Addin.DeploymentManager.IDeployComponent[]
+			{
+				new ISI.Cake.Addin.DeploymentManager.DeployComponentConsoleApplication()
+				{
+					PackageFolder = "ISI\\ISI.ServiceExample.MigrationTool.SqlServer",
+					DeployToSubfolder = "ISI.ServiceExample.MigrationTool.SqlServer",
+					ConsoleApplicationExe = "ISI.ServiceExample.MigrationTool.SqlServer.exe",
+					ExecuteConsoleApplicationAfterInstall = true,
+					ExecuteConsoleApplicationAfterInstallArguments = "-noWaitAtFinish",
+				},
+				new ISI.Cake.Addin.DeploymentManager.DeployComponentWindowsService()
+				{
+					PackageFolder = "ISI\\ISI.ServiceExample.ServiceApplication",
+					DeployToSubfolder = "ISI.ServiceExample.ServiceApplication",
+					WindowsServiceExe = "ISI.ServiceExample.ServiceApplication.exe",
+				},
+			},
+		});
 	});
 
 Task("Default")
