@@ -20,8 +20,13 @@ var rootProjectPath = File("./ISI.ServiceExample.ServiceApplication/ISI.ServiceE
 var buildDateTime = DateTime.UtcNow;
 var buildDateTimeStamp = GetDateTimeStamp(buildDateTime);
 var buildRevision = GetBuildRevision(buildDateTime);
-var assemblyVersion = GetAssemblyVersion(ParseAssemblyInfo(assemblyVersionFile).AssemblyVersion, buildRevision);
-Information("AssemblyVersion: {0}", assemblyVersion);
+
+var assemblyVersions = GetAssemblyVersionFiles(rootAssemblyVersionKey, buildRevision);
+var assemblyVersion = assemblyVersions[rootAssemblyVersionKey].AssemblyVersion;
+
+var buildDateTimeStampVersion = new ISI.Extensions.Scm.DateTimeStampVersion(buildDateTimeStamp, assemblyVersions[rootAssemblyVersionKey].AssemblyVersion);
+
+Information("BuildDateTimeStampVersion: {0}", buildDateTimeStampVersion);
 
 var nugetPackOutputDirectory = Argument("NugetPackOutputDirectory", "../Nuget");
 
@@ -30,7 +35,7 @@ Task("Clean")
 	{
 		Information("Cleaning Projects ...");
 
-		foreach(var projectPath in solution.Projects.Select(p => p.Path.GetDirectory()))
+		foreach(var projectPath in new HashSet<string>(solution.Projects.Select(p => p.Path.GetDirectory().ToString())))
 		{
 			Information("Cleaning {0}", projectPath);
 			CleanDirectories(projectPath + "/**/bin/" + configuration);
@@ -246,7 +251,6 @@ Task("Nuget")
 			});
 		}
 	});
-
 
 Task("Publish")
 	.IsDependentOn("Nuget")
