@@ -279,27 +279,27 @@ Task("Publish")
 			PackageChunksRepositoryUri = GetNullableUri(settings.Nuget.PackageChunksRepositoryUrl),
 		});
 
-		var authenticationToken = GetAuthenticationToken(new ISI.Cake.Addin.Scm.GetAuthenticationTokenRequest()
+		var authenticationToken = GetBuildArtifactsAuthenticationToken(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactsAuthenticationTokenRequest()
 		{
-			ScmManagementUrl = settings.Scm.WebServiceUrl,
+			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
 			UserName = settings.ActiveDirectory.UserName,
 			Password = settings.ActiveDirectory.Password,
 		}).AuthenticationToken;
 
-		UploadArtifact(new ISI.Cake.Addin.BuildArtifacts.UploadArtifactRequest()
+		UploadBuildArtifact(new ISI.Cake.Addin.BuildArtifacts.UploadBuildArtifactRequest()
 		{
-			BuildArtifactManagementUrl = settings.Scm.WebServiceUrl,
-			AuthenticationToken = authenticationToken,
+			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
+			BuildArtifactsApiKey = authenticationToken,
 			SourceFileName = buildArtifactZipFile.Path.FullPath,
-			ArtifactName = artifactName,
+			BuildArtifactName = artifactName,
 			DateTimeStampVersion = buildDateTimeStampVersion,
 		});
 
-		SetArtifactEnvironmentDateTimeStampVersion(new ISI.Cake.Addin.BuildArtifacts.SetArtifactEnvironmentDateTimeStampVersionRequest()
+		SetBuildArtifactEnvironmentDateTimeStampVersion(new ISI.Cake.Addin.BuildArtifacts.SetBuildArtifactEnvironmentDateTimeStampVersionRequest()
 		{
-			BuildArtifactManagementUrl = settings.Scm.WebServiceUrl,
-			AuthenticationToken = authenticationToken,
-			ArtifactName = artifactName,
+			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
+			BuildArtifactsApiKey = authenticationToken,
+			BuildArtifactName = artifactName,
 			Environment = "Build",
 			DateTimeStampVersion = buildDateTimeStampVersion,
 		});
@@ -308,30 +308,30 @@ Task("Publish")
 Task("Production-Deploy")
 	.Does(() => 
 	{
-		var authenticationToken = GetAuthenticationToken(new ISI.Cake.Addin.Scm.GetAuthenticationTokenRequest()
+		var authenticationToken = GetBuildArtifactsAuthenticationToken(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactsAuthenticationTokenRequest()
 		{
-			ScmManagementUrl = settings.Scm.WebServiceUrl,
+			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
 			UserName = settings.ActiveDirectory.UserName,
 			Password = settings.ActiveDirectory.Password,
 		}).AuthenticationToken;
 
 		var dateTimeStampVersion = GetBuildArtifactEnvironmentDateTimeStampVersion(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactEnvironmentDateTimeStampVersionRequest()
 		{
-			BuildArtifactManagementUrl = settings.Scm.WebServiceUrl,
-			AuthenticationToken = authenticationToken,
-			ArtifactName = artifactName,
+			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
+			BuildArtifactsApiKey = authenticationToken,
+			BuildArtifactName = artifactName,
 			Environment = "Build",
 		}).DateTimeStampVersion;
 
-		DeployArtifact(new ISI.Cake.Addin.DeploymentManager.DeployArtifactRequest()
+		DeployBuildArtifact(new ISI.Cake.Addin.DeploymentManager.DeployBuildArtifactRequest()
 		{
-			ServicesManagerUrl = settings.GetValue("PRODUCTION-SERVER-DeployManager-Url"),
-			Password = settings.GetValue("PRODUCTION-SERVER-DeployManager-Password"),
+			ServicesManagerUri = GetNullableUri(settings.GetValue("PRODUCTION-SERVER-DeployManager-Url")),
+			ServicesManagerApiKey = settings.GetValue("PRODUCTION-SERVER-DeployManager-Password"),
 
-			AuthenticationToken = authenticationToken,
+			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
+			BuildArtifactsApiKey = authenticationToken,
 
-			BuildArtifactManagementUrl = settings.Scm.WebServiceUrl,
-			ArtifactName = artifactName,
+			BuildArtifactName = artifactName,
 			ToDateTimeStamp = dateTimeStampVersion,
 			ToEnvironment = "Production",
 			ConfigurationKey = "Production",
