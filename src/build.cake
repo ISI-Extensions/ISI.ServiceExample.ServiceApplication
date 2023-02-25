@@ -243,17 +243,16 @@ Task("Package")
 				new ISI.Cake.Addin.PackageComponents.PackageComponentConsoleApplication()
 				{
 					ProjectFullName = File("./ISI.ServiceExample.MigrationTool.SqlServer/ISI.ServiceExample.MigrationTool.SqlServer.csproj").Path.FullPath,
-					IconFullName = File("./Lantern.ico").Path.FullPath,
+					IconFileName = "Lantern.ico",
 				},
 				new ISI.Cake.Addin.PackageComponents.PackageComponentWindowsService()
 				{
 					ProjectFullName = rootProjectFile.Path.FullPath,
-					IconFullName = File("./Lantern.ico").Path.FullPath,
+					IconFileName = "Lantern.ico",
 				},
 			},
 			PackageFullName = buildArtifactZipFile.Path.FullPath,
-			PackageVersion = assemblyVersion,
-			PackageBuildDateTimeStamp = buildDateTimeStamp,
+			PackageBuildDateTimeStampVersion = buildDateTimeStampVersion,
 		});
 		
 		DeleteAgedPackages(new ISI.Cake.Addin.PackageComponents.DeleteAgedPackagesRequest()
@@ -282,7 +281,7 @@ Task("Publish")
 		var authenticationToken = GetBuildArtifactsAuthenticationToken(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactsAuthenticationTokenRequest()
 		{
 			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
-			UserName = settings.ActiveDirectory.UserName,
+			UserName = settings.ActiveDirectory.GetDomainUserName(),
 			Password = settings.ActiveDirectory.Password,
 		}).AuthenticationToken;
 
@@ -311,7 +310,7 @@ Task("Production-Deploy")
 		var authenticationToken = GetBuildArtifactsAuthenticationToken(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactsAuthenticationTokenRequest()
 		{
 			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
-			UserName = settings.ActiveDirectory.UserName,
+			UserName = settings.ActiveDirectory.GetDomainUserName(),
 			Password = settings.ActiveDirectory.Password,
 		}).AuthenticationToken;
 
@@ -341,6 +340,7 @@ Task("Production-Deploy")
 				{
 					PackageFolder = "ISI\\ISI.ServiceExample.MigrationTool.SqlServer",
 					DeployToSubfolder = "ISI.ServiceExample.MigrationTool.SqlServer",
+					DeployToSubfolderIconFileName = "Lantern.ico",
 					ConsoleApplicationExe = "ISI.ServiceExample.MigrationTool.SqlServer.exe",
 					ExecuteConsoleApplicationAfterInstall = true,
 					ExecuteConsoleApplicationAfterInstallArguments = "-noWaitAtFinish",
@@ -349,6 +349,7 @@ Task("Production-Deploy")
 				{
 					PackageFolder = "ISI\\ISI.ServiceExample.ServiceApplication",
 					DeployToSubfolder = "ISI.ServiceExample.ServiceApplication",
+					DeployToSubfolderIconFileName = "Lantern.ico",
 					WindowsServiceExe = "ISI.ServiceExample.ServiceApplication.exe",
 				},
 			},
