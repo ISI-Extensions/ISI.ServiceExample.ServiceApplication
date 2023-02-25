@@ -26,12 +26,11 @@ namespace ISI.ServiceExample.Repository.SqlServer
 	{
 		public CachedObjectRecordManager(
 			Microsoft.Extensions.Configuration.IConfiguration configuration,
-			ISI.Extensions.Repository.SqlServer.Configuration sqlServerConfiguration,
 			Configuration recordMangerConfiguration,
 			Microsoft.Extensions.Logging.ILogger logger,
 			ISI.Extensions.DateTimeStamper.IDateTimeStamper dateTimeStamper,
 			ISI.Extensions.JsonSerialization.IJsonSerializer serializer)
-			: base(configuration, sqlServerConfiguration, logger, dateTimeStamper, serializer, recordMangerConfiguration.ConnectionString)
+			: base(configuration, logger, dateTimeStamper, serializer, recordMangerConfiguration.ConnectionString)
 		{
 		}
 	}

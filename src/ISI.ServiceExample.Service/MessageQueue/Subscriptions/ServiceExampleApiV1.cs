@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MESSAGEBUS = ISI.Services.ServiceExample.MessageBus.ServiceExampleApiV1;
+using MESSAGEBUS = ISI.Services.ServiceExample.MessageBus.SerializableModels.ServiceExampleApiV1;
 
 namespace ISI.ServiceExample.Service.MessageQueue
 {

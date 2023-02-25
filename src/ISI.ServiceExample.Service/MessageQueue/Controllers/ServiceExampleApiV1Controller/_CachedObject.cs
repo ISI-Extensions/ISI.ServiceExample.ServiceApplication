@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 using ISI.Extensions.Caching.Extensions;
 using ISI.Extensions.Extensions;
 using LOCALENTITY = ISI.ServiceExample;
-using MESSAGEBUS = ISI.Services.ServiceExample.MessageBus.ServiceExampleApiV1;
+using MESSAGEBUS = ISI.Services.ServiceExample.MessageBus.SerializableModels.ServiceExampleApiV1;
 using DTOs = ISI.ServiceExample.DataTransferObjects.ServiceExampleApi;
 
 namespace ISI.ServiceExample.Service.MessageQueue.Controllers
