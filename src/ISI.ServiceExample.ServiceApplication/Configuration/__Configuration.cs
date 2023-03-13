@@ -11,6 +11,10 @@ namespace ISI.ServiceExample.ServiceApplication
 	{
 		public const string ConfigurationSectionName = "ISI.ServiceExample.ServiceApplication";
 
-		public ElasticsearchLoggingConfiguration ElasticsearchLogging { get; set; } = new ElasticsearchLoggingConfiguration();
+		public ElasticsearchLoggingConfiguration ElasticsearchLogging { get; set; } = new();
+
+		public string ServiceApiToken { get; set; }
+
+		public string LogDirectory { get; set; }
 	}
 }

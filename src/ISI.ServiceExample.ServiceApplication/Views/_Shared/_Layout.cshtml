@@ -1,0 +1,59 @@
+@using ISI.Extensions.AspNetCore.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ISI.ServiceExample.ServiceApplication.Models.BaseModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>@Model.Title</title>
+	@Html.AddStyleSheet(ISI.ServiceExample.ServiceApplication.T4Links.wwwroot.lib.bootstrap.dist.css.bootstrap_css)
+	@Html.AddStyleSheet(ISI.ServiceExample.ServiceApplication.T4Links.wwwroot.lib.bootstrap.dist.css.bootstrap_grid_css)
+	@Html.AddStyleSheet(ISI.ServiceExample.ServiceApplication.T4Links.wwwroot.lib.bootstrap.dist.css.bootstrap_reboot_css)
+	@Html.AddStyleSheet(ISI.ServiceExample.ServiceApplication.T4Links.wwwroot.lib.bootstrap.dist.css.bootstrap_utilities_css)
+	@Html.AddStyleSheet(ISI.ServiceExample.ServiceApplication.T4Links.wwwroot.StyleSheets._Shared._Layout_css)
+	@RenderSection("StyleSheetIncludes", false)
+</head>
+<body>
+	<header>
+		<nav class="navbar bg-light" aria-label="ISI.SCM.BuildArtifacts, Integrated Solutoins, Inc.">
+			<div class="container-fluid">
+				<a class="navbar-brand" asp-route="@ISI.ServiceExample.ServiceApplication.Routes.Public.RouteNames.Index">Integrated Solutions, Inc.</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbarLight" aria-labelledby="offcanvasNavbarLightLabel">
+					<div class="offcanvas-header">
+						<h5 class="offcanvas-title" id="offcanvasNavbarLightLabel">Navigation</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+					<div class="offcanvas-body">
+						<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+
+	<footer class="border-top footer text-muted">
+		<div class="container">
+			&copy; @DateTime.UtcNow.Year - Integrated Solutions, Inc.
+		</div>
+	</footer>
+	@Html.AddJavaScript(ISI.ServiceExample.ServiceApplication.T4Links.wwwroot.lib.jquery.dist.jquery_js)
+	@Html.AddJavaScript(ISI.ServiceExample.ServiceApplication.T4Links.wwwroot.lib.bootstrap.dist.js.bootstrap_bundle_js)
+	@Html.AddJavaScript(ISI.ServiceExample.ServiceApplication.T4Links.wwwroot.JavaScripts._Shared._Layout_js)
+	@RenderSection("JavaScriptIncludes", false)
+	@RenderSection("JavaScriptContent", false)
+</body>
+</html>

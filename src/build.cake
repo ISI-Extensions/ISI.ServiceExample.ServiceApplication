@@ -28,7 +28,7 @@ var buildDateTimeStampVersion = new ISI.Extensions.Scm.DateTimeStampVersion(buil
 
 Information("BuildDateTimeStampVersion: {0}", buildDateTimeStampVersion);
 
-var nugetPackOutputDirectory = Argument("NugetPackOutputDirectory", "../Nuget");
+var nugetPackOutputDirectory = Argument("NugetPackOutputDirectory", System.IO.Path.GetFullPath("../Nuget"));
 
 var buildArtifactZipFile = File(string.Format("../Publish/{0}.{1}.zip", artifactName, buildDateTimeStamp));
 
@@ -160,34 +160,6 @@ Task("Package")
 				}
 			}).Nuspec;
 
-			var files = new List<ISI.Extensions.Nuget.NuspecFile>(nuspec.Files ?? new ISI.Extensions.Nuget.NuspecFile[0]);
-
-			{
-				var pdbFile = File(project.Path.GetDirectory() + "/bin/" + configuration + "/" + project.Name + ".pdb");
-				if(FileExists(pdbFile))
-				{
-					files.Add(new ISI.Extensions.Nuget.NuspecFile()
-					{
-						Target = "lib/net48",
-						SourcePattern = pdbFile.Path.FullPath,
-					});
-				}
-			}
-
-			{
-				var pdbFile = File(project.Path.GetDirectory() + "/bin/" + configuration + "/netstandard2.0/" + project.Name + ".pdb");
-				if(FileExists(pdbFile))
-				{
-					files.Add(new ISI.Extensions.Nuget.NuspecFile()
-					{
-						Target = "lib/netstandard2.0",
-						SourcePattern = pdbFile.Path.FullPath,
-					});
-				}
-			}
-
-			nuspec.Files = files;
-
 			nuspec.Version = assemblyVersion;
 			nuspec.IconUri = GetNullableUri(@"https://nuget.isi-net.com/Images/Lantern.png");
 			nuspec.ProjectUri = GetNullableUri(sourceControlUrl);
@@ -205,17 +177,10 @@ Task("Package")
 				NuspecFullName = nuspecFile.Path.FullPath,
 			});
 
-			NuGetPack(project.Path.FullPath, new NuGetPackSettings()
+			NupkgPack(new ISI.Cake.Addin.Nuget.NupkgPackRequest()
 			{
-				Id = project.Name,
-				Version = assemblyVersion, 
-				Verbosity = NuGetVerbosity.Detailed,
-				Properties = new Dictionary<string, string>
-				{
-					{ "Configuration", configuration }
-				},
-				NoPackageAnalysis = false,
-				Symbols = false,
+				NuspecFullName = nuspecFile.Path.FullPath,
+				CsProjFullName = project.Path.FullPath,
 				OutputDirectory = nugetPackOutputDirectory,
 			});
 

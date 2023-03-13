@@ -14,7 +14,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-		<PackageReference Include="ISI.Extensions" Version="10.0.8456.6042" />
+		<PackageReference Include="ISI.Extensions" Version="10.0.8472.1398" />
 		<PackageReference Update="NETStandard.Library" Version="2.0.3" />
 		<ProjectReference Include="..\ISI.Services.ServiceExample\ISI.Services.ServiceExample.csproj" />
 	</ItemGroup>

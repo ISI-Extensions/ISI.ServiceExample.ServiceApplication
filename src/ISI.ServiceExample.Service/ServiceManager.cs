@@ -19,7 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ISI.ServiceExample.Service
+namespace ISI.ServiceExample.ServiceApplication
 {
 	public class ServiceManager : Microsoft.Extensions.Hosting.IHostedService, ISI.Extensions.Services.IServiceManagerAsync
 	{
@@ -44,7 +44,7 @@ namespace ISI.ServiceExample.Service
 		{
 			MessageBus.Build(ServiceProvider, new ISI.Extensions.MessageBus.MessageBusBuildRequestCollection()
 			{
-				ISI.ServiceExample.Service.MessageQueue.Subscriptions.GetAddSubscriptions,
+				ISI.ServiceExample.ServiceApplication.MessageBus.Subscriptions.GetAddSubscriptions,
 				ISI.Extensions.Caching.MessageBus.Subscriptions.GetAddSubscriptions,
 			});
 

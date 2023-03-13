@@ -20,8 +20,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ISI.ServiceExample.Service")]
+[assembly: AssemblyTitle("ISI.ServiceExample.ServiceApplication")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("ISI.ServiceExample.Service")]
+[assembly: AssemblyProduct("ISI.ServiceExample.ServiceApplication")]
 [assembly: AssemblyCulture("")]

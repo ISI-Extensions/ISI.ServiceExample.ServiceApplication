@@ -20,7 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ISI.ServiceExample.Service
+namespace ISI.ServiceExample.ServiceApplication
 {
 	[ISI.Extensions.DependencyInjection.ServiceRegistrar]
 	public class ServiceRegistrar : ISI.Extensions.DependencyInjection.IServiceRegistrar
