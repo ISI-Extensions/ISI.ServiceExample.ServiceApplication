@@ -32,12 +32,12 @@ namespace ISI.ServiceExample.ServiceApplication
 {
 	public class ServiceManager
 	{
-		private Microsoft.Extensions.Hosting.IHost _webHost;
+		private Microsoft.Extensions.Hosting.IHost _host;
 		private ISI.Extensions.MessageBus.IMessageBus _messageBus;
 
 		public async Task<bool> StartAsync(Microsoft.Extensions.Configuration.IConfigurationRoot configurationRoot, string environment, string[] args)
 		{
-			_webHost = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
+			_host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
 				.UseSerilog((context, services, loggerConfiguration) => LoggerConfigurator.UpdateLoggerConfiguration(loggerConfiguration, services, configurationRoot, environment))
 				.ConfigureWebHostDefaults(webHostBuilder =>
 				{
@@ -95,9 +95,9 @@ namespace ISI.ServiceExample.ServiceApplication
 				.Build();
 
 
-			await _webHost.StartAsync().ContinueWith( _ =>
+			await _host.StartAsync().ContinueWith( _ =>
 			{
-				var server = _webHost.Services.GetRequiredService<global::Microsoft.AspNetCore.Hosting.Server.IServer>();
+				var server = _host.Services.GetRequiredService<global::Microsoft.AspNetCore.Hosting.Server.IServer>();
 				var addressFeature = server.Features.Get<global::Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature>();
 
 				Serilog.Log.Information("Address(es)");
@@ -106,9 +106,9 @@ namespace ISI.ServiceExample.ServiceApplication
 					Serilog.Log.Information($"  {address}");
 				}
 
-				_messageBus = _webHost.Services.GetRequiredService<ISI.Extensions.MessageBus.IMessageBus>();
+				_messageBus = _host.Services.GetRequiredService<ISI.Extensions.MessageBus.IMessageBus>();
 
-				_messageBus.Build(_webHost.Services, new ISI.Extensions.MessageBus.MessageBusBuildRequestCollection()
+				_messageBus.Build(_host.Services, new ISI.Extensions.MessageBus.MessageBusBuildRequestCollection()
 				{
 					ISI.ServiceExample.ServiceApplication.MessageBus.Subscriptions.GetAddSubscriptions,
 					ISI.Extensions.Caching.MessageBus.Subscriptions.GetAddSubscriptions,
@@ -116,7 +116,7 @@ namespace ISI.ServiceExample.ServiceApplication
 
 				_messageBus.StartAsync();
 
-				return _webHost.Services.SetServiceLocator();
+				return _host.Services.SetServiceLocator();
 			});
 
 			return true;
@@ -124,13 +124,13 @@ namespace ISI.ServiceExample.ServiceApplication
 
 		public async Task<bool> StopAsync()
 		{
-			await _webHost.StopAsync();
+			await _host.StopAsync();
 
 			await _messageBus.StopAsync();
 
 			ISI.Extensions.Threads.ExitAll();
 
-			_webHost.Dispose();
+			_host.Dispose();
 			_messageBus.Dispose();
 
 			return true;
