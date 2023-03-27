@@ -25,13 +25,13 @@ namespace ISI.ServiceExample.Repository
 {
 	public partial class ServiceExampleRepository
 	{
-		public async Task<DTOs.ListCachedObjectsResponse> ListCachedObjectsAsync(DTOs.ListCachedObjectsRequest request)
+		public async Task<DTOs.ListCachedObjectsResponse> ListCachedObjectsAsync(DTOs.ListCachedObjectsRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.ListCachedObjectsResponse();
 			
 			var cachedObjects = new List<CachedObject>();
 
-			await foreach (var record in CachedObjectRecordManager.ListRecordsAsync().WithCancellation(request.CancellationToken).ConfigureAwait(false))
+			await foreach (var record in CachedObjectRecordManager.ListRecordsAsync().WithCancellation(cancellationToken).ConfigureAwait(false))
 			{
 				cachedObjects.Add(Convert(record));
 			}

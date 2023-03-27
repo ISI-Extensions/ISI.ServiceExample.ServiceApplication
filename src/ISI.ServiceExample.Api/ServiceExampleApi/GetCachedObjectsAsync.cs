@@ -27,7 +27,7 @@ namespace ISI.ServiceExample.Api
 {
 	public partial class ServiceExampleApi
 	{
-		public async Task<DTOs.GetCachedObjectsResponse> GetCachedObjectsAsync(DTOs.GetCachedObjectsRequest request)
+		public async Task<DTOs.GetCachedObjectsResponse> GetCachedObjectsAsync(DTOs.GetCachedObjectsRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.GetCachedObjectsResponse();
 
@@ -36,11 +36,10 @@ namespace ISI.ServiceExample.Api
 				ISI.ServiceExample.CachedObject.GetCacheKey,
 				async cachedObjectUuids =>
 				{
-					var repositoryResponse = await ServiceExampleRepository.GetCachedObjectsAsync(new RepositoryDTOs.GetCachedObjectsRequest()
+					var repositoryResponse = await ServiceExampleRepository.GetCachedObjectsAsync(new ()
 					{
 						CachedObjectUuids = cachedObjectUuids,
-						CancellationToken = request.CancellationToken,
-					});
+					}, cancellationToken);
 
 					return repositoryResponse.CachedObjects.ToNullCheckedDictionary(cachedObject => cachedObject.CachedObjectUuid, SetCacheKey);
 				}

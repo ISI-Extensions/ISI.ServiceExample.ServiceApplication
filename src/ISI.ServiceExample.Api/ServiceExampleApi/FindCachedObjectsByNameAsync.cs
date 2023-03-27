@@ -27,15 +27,14 @@ namespace ISI.ServiceExample.Api
 {
 	public partial class ServiceExampleApi
 	{
-		public async Task<DTOs.FindCachedObjectsByNameResponse> FindCachedObjectsByNameAsync(DTOs.FindCachedObjectsByNameRequest request)
+		public async Task<DTOs.FindCachedObjectsByNameResponse> FindCachedObjectsByNameAsync(DTOs.FindCachedObjectsByNameRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.FindCachedObjectsByNameResponse();
 			
-			var repositoryResponse = await ServiceExampleRepository.FindCachedObjectsByNameAsync(new RepositoryDTOs.FindCachedObjectsByNameRequest()
+			var repositoryResponse = await ServiceExampleRepository.FindCachedObjectsByNameAsync(new ()
 			{
 				Names = request.Names,
-				CancellationToken = request.CancellationToken,
-			});
+			}, cancellationToken);
 
 			response.CachedObjects = repositoryResponse.CachedObjects.ToNullCheckedArray(SetCacheKey);
 			CacheManager.AddRange(response.CachedObjects);

@@ -28,7 +28,7 @@ namespace ISI.Services.ServiceExample.MessageBus
 {
 	public partial class ServiceExampleApi
 	{
-		public async Task<DTOs.FindCachedObjectsByNameResponse> FindCachedObjectsByNameAsync(DTOs.FindCachedObjectsByNameRequest request)
+		public async Task<DTOs.FindCachedObjectsByNameResponse> FindCachedObjectsByNameAsync(DTOs.FindCachedObjectsByNameRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.FindCachedObjectsByNameResponse();
 			
@@ -37,7 +37,7 @@ namespace ISI.Services.ServiceExample.MessageBus
 				Names = request.Names.ToNullCheckedArray(),
 			};
 
-			var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.FindCachedObjectsByNameRequest, MESSAGEBUS.FindCachedObjectsByNameResponse>(serviceRequest, cancellationToken: request.CancellationToken);
+			var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.FindCachedObjectsByNameRequest, MESSAGEBUS.FindCachedObjectsByNameResponse>(serviceRequest, cancellationToken: cancellationToken);
 
 			response.CachedObjects = serviceResponse.CachedObjects.NullCheckedSelect(Convert);
 

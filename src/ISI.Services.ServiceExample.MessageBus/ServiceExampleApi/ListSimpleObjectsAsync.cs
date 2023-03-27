@@ -28,13 +28,13 @@ namespace ISI.Services.ServiceExample.MessageBus
 {
 	public partial class ServiceExampleApi
 	{
-		public async Task<DTOs.ListSimpleObjectsResponse> ListSimpleObjectsAsync(DTOs.ListSimpleObjectsRequest request)
+		public async Task<DTOs.ListSimpleObjectsResponse> ListSimpleObjectsAsync(DTOs.ListSimpleObjectsRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.ListSimpleObjectsResponse();
 			
 			var serviceRequest = new MESSAGEBUS.ListSimpleObjectsRequest();
 
-			var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.ListSimpleObjectsRequest, MESSAGEBUS.ListSimpleObjectsResponse>(serviceRequest, cancellationToken: request.CancellationToken);
+			var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.ListSimpleObjectsRequest, MESSAGEBUS.ListSimpleObjectsResponse>(serviceRequest, cancellationToken: cancellationToken);
 
 			response.SimpleObjects = serviceResponse.SimpleObjects.NullCheckedSelect(Convert);
 

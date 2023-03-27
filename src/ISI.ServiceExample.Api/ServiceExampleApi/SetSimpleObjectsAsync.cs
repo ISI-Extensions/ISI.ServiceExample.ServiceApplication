@@ -27,15 +27,14 @@ namespace ISI.ServiceExample.Api
 {
 	public partial class ServiceExampleApi
 	{
-		public async Task<DTOs.SetSimpleObjectsResponse> SetSimpleObjectsAsync(DTOs.SetSimpleObjectsRequest request)
+		public async Task<DTOs.SetSimpleObjectsResponse> SetSimpleObjectsAsync(DTOs.SetSimpleObjectsRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.SetSimpleObjectsResponse();
 			
-			var repositoryResponse = await ServiceExampleRepository.SetSimpleObjectsAsync(new RepositoryDTOs.SetSimpleObjectsRequest()
+			var repositoryResponse = await ServiceExampleRepository.SetSimpleObjectsAsync(new ()
 			{
 				SimpleObjects = request.SimpleObjects,
-				CancellationToken = request.CancellationToken,
-			});
+			}, cancellationToken);
 
 			response.SimpleObjects = repositoryResponse.SimpleObjects;
 

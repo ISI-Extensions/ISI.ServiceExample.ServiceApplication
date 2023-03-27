@@ -27,15 +27,14 @@ namespace ISI.ServiceExample.Api
 {
 	public partial class ServiceExampleApi
 	{
-		public async Task<DTOs.FindMoreComplexObjectsByNameResponse> FindMoreComplexObjectsByNameAsync(DTOs.FindMoreComplexObjectsByNameRequest request)
+		public async Task<DTOs.FindMoreComplexObjectsByNameResponse> FindMoreComplexObjectsByNameAsync(DTOs.FindMoreComplexObjectsByNameRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.FindMoreComplexObjectsByNameResponse();
 			
-			var repositoryResponse = await ServiceExampleRepository.FindMoreComplexObjectsByNameAsync(new RepositoryDTOs.FindMoreComplexObjectsByNameRequest()
+			var repositoryResponse = await ServiceExampleRepository.FindMoreComplexObjectsByNameAsync(new ()
 			{
 				Names = request.Names,
-				CancellationToken = request.CancellationToken,
-			});
+			}, cancellationToken);
 
 			response.MoreComplexObjects = repositoryResponse.MoreComplexObjects;
 

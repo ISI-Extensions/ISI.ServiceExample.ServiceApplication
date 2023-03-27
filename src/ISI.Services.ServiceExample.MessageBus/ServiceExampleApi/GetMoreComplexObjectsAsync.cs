@@ -28,7 +28,7 @@ namespace ISI.Services.ServiceExample.MessageBus
 {
 	public partial class ServiceExampleApi
 	{
-		public async Task<DTOs.GetMoreComplexObjectsResponse> GetMoreComplexObjectsAsync(DTOs.GetMoreComplexObjectsRequest request)
+		public async Task<DTOs.GetMoreComplexObjectsResponse> GetMoreComplexObjectsAsync(DTOs.GetMoreComplexObjectsRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.GetMoreComplexObjectsResponse();
 			
@@ -37,7 +37,7 @@ namespace ISI.Services.ServiceExample.MessageBus
 				MoreComplexObjectUuids = request.MoreComplexObjectUuids.ToNullCheckedArray(),
 			};
 
-			var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.GetMoreComplexObjectsRequest, MESSAGEBUS.GetMoreComplexObjectsResponse>(serviceRequest, cancellationToken: request.CancellationToken);
+			var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.GetMoreComplexObjectsRequest, MESSAGEBUS.GetMoreComplexObjectsResponse>(serviceRequest, cancellationToken: cancellationToken);
 
 			response.MoreComplexObjects = serviceResponse.MoreComplexObjects.NullCheckedSelect(Convert);
 

@@ -28,7 +28,7 @@ namespace ISI.Services.ServiceExample.MessageBus
 {
 	public partial class ServiceExampleApi
 	{
-		public async Task<DTOs.GetCachedObjectsResponse> GetCachedObjectsAsync(DTOs.GetCachedObjectsRequest request)
+		public async Task<DTOs.GetCachedObjectsResponse> GetCachedObjectsAsync(DTOs.GetCachedObjectsRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.GetCachedObjectsResponse();
 			
@@ -42,7 +42,7 @@ namespace ISI.Services.ServiceExample.MessageBus
 						CachedObjectUuids = cachedObjectUuids.ToNullCheckedArray(),
 					};
 
-					var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.GetCachedObjectsRequest, MESSAGEBUS.GetCachedObjectsResponse>(serviceRequest, cancellationToken: request.CancellationToken);
+					var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.GetCachedObjectsRequest, MESSAGEBUS.GetCachedObjectsResponse>(serviceRequest, cancellationToken: cancellationToken);
 
 					return serviceResponse.CachedObjects.ToNullCheckedDictionary(cachedObject => cachedObject.CachedObjectUuid, Convert);
 				}

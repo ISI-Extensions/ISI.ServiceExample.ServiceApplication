@@ -21,9 +21,7 @@ using System.Threading.Tasks;
 
 namespace ISI.Services.ServiceExample.DataTransferObjects.ServiceExampleApi
 {
-	public partial class ListComplexObjectsRequest
+	public class ListComplexObjectsRequest
 	{
-
-		public System.Threading.CancellationToken CancellationToken { get; set; } = default;
 	}
 }

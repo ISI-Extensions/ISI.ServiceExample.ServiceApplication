@@ -21,10 +21,8 @@ using System.Threading.Tasks;
 
 namespace ISI.ServiceExample.DataTransferObjects.ServiceExampleRepository
 {
-	public partial class GetCachedObjectsRequest
+	public class GetCachedObjectsRequest
 	{
 		public IEnumerable<Guid> CachedObjectUuids { get; set; }
-
-		public System.Threading.CancellationToken CancellationToken { get; set; } = default;
 	}
 }

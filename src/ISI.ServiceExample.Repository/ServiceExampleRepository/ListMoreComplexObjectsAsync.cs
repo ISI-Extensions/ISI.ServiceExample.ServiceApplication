@@ -25,13 +25,13 @@ namespace ISI.ServiceExample.Repository
 {
 	public partial class ServiceExampleRepository
 	{
-		public async Task<DTOs.ListMoreComplexObjectsResponse> ListMoreComplexObjectsAsync(DTOs.ListMoreComplexObjectsRequest request)
+		public async Task<DTOs.ListMoreComplexObjectsResponse> ListMoreComplexObjectsAsync(DTOs.ListMoreComplexObjectsRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.ListMoreComplexObjectsResponse();
 			
 			var moreComplexObjects = new List<MoreComplexObject>();
 
-			await foreach (var record in MoreComplexObjectRecordManager.ListRecordsAsync().WithCancellation(request.CancellationToken).ConfigureAwait(false))
+			await foreach (var record in MoreComplexObjectRecordManager.ListRecordsAsync().WithCancellation(cancellationToken).ConfigureAwait(false))
 			{
 				moreComplexObjects.Add(Convert(record));
 			}

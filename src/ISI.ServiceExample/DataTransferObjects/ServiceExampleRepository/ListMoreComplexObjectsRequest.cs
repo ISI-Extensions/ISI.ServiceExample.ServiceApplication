@@ -21,9 +21,7 @@ using System.Threading.Tasks;
 
 namespace ISI.ServiceExample.DataTransferObjects.ServiceExampleRepository
 {
-	public partial class ListMoreComplexObjectsRequest
+	public class ListMoreComplexObjectsRequest
 	{
-
-		public System.Threading.CancellationToken CancellationToken { get; set; } = default;
 	}
 }

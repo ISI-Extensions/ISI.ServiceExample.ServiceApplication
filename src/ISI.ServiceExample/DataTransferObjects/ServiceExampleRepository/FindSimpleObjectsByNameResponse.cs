@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace ISI.ServiceExample.DataTransferObjects.ServiceExampleRepository
 {
-	public partial class FindSimpleObjectsByNameResponse
+	public class FindSimpleObjectsByNameResponse
 	{
 		public IEnumerable<SimpleObject> SimpleObjects { get; set; }
 	}

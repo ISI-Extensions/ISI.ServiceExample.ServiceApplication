@@ -27,16 +27,13 @@ namespace ISI.ServiceExample.Api
 {
 	public partial class ServiceExampleApi
 	{
-		public async Task<DTOs.ListCachedObjectsResponse> ListCachedObjectsAsync(DTOs.ListCachedObjectsRequest request)
+		public async Task<DTOs.ListCachedObjectsResponse> ListCachedObjectsAsync(DTOs.ListCachedObjectsRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.ListCachedObjectsResponse();
 
 			response.CachedObjects = await CacheManager.GetOrCreateAsync(ISI.ServiceExample.CachedObject.GetListCacheKey(), async () =>
 			{
-				var repositoryResponse = await ServiceExampleRepository.ListCachedObjectsAsync(new RepositoryDTOs.ListCachedObjectsRequest()
-				{
-					CancellationToken = request.CancellationToken,
-				});
+				var repositoryResponse = await ServiceExampleRepository.ListCachedObjectsAsync(new (), cancellationToken);
 
 				return repositoryResponse.CachedObjects.ToNullCheckedArray(SetCacheKey, NullCheckCollectionResult.Empty);
 			}, null, null, null, false);

@@ -21,10 +21,8 @@ using System.Threading.Tasks;
 
 namespace ISI.ServiceExample.DataTransferObjects.ServiceExampleRepository
 {
-	public partial class FindCachedObjectsByNameRequest
+	public class FindCachedObjectsByNameRequest
 	{
 		public IEnumerable<string> Names { get; set; }
-
-		public System.Threading.CancellationToken CancellationToken { get; set; } = default;
 	}
 }

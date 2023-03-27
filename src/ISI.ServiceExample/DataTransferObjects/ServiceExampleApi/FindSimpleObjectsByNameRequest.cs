@@ -21,10 +21,8 @@ using System.Threading.Tasks;
 
 namespace ISI.ServiceExample.DataTransferObjects.ServiceExampleApi
 {
-	public partial class FindSimpleObjectsByNameRequest
+	public class FindSimpleObjectsByNameRequest
 	{
 		public IEnumerable<string> Names { get; set; }
-
-		public System.Threading.CancellationToken CancellationToken { get; set; } = default;
 	}
 }

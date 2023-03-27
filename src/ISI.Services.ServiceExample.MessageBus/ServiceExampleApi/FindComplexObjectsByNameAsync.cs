@@ -28,7 +28,7 @@ namespace ISI.Services.ServiceExample.MessageBus
 {
 	public partial class ServiceExampleApi
 	{
-		public async Task<DTOs.FindComplexObjectsByNameResponse> FindComplexObjectsByNameAsync(DTOs.FindComplexObjectsByNameRequest request)
+		public async Task<DTOs.FindComplexObjectsByNameResponse> FindComplexObjectsByNameAsync(DTOs.FindComplexObjectsByNameRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.FindComplexObjectsByNameResponse();
 			
@@ -37,7 +37,7 @@ namespace ISI.Services.ServiceExample.MessageBus
 				Names = request.Names.ToNullCheckedArray(),
 			};
 
-			var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.FindComplexObjectsByNameRequest, MESSAGEBUS.FindComplexObjectsByNameResponse>(serviceRequest, cancellationToken: request.CancellationToken);
+			var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.FindComplexObjectsByNameRequest, MESSAGEBUS.FindComplexObjectsByNameResponse>(serviceRequest, cancellationToken: cancellationToken);
 
 			response.ComplexObjects = serviceResponse.ComplexObjects.NullCheckedSelect(Convert);
 

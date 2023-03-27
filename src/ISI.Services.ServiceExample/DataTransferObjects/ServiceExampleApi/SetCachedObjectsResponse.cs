@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace ISI.Services.ServiceExample.DataTransferObjects.ServiceExampleApi
 {
-	public partial class SetCachedObjectsResponse
+	public class SetCachedObjectsResponse
 	{
 		public IEnumerable<CachedObject> CachedObjects { get; set; }
 	}

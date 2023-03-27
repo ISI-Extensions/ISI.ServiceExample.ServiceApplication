@@ -24,24 +24,24 @@ namespace ISI.ServiceExample
 {
 	public interface IServiceExampleRepository
 	{
-		Task<DTOs.SetSimpleObjectsResponse> SetSimpleObjectsAsync(DTOs.SetSimpleObjectsRequest request);
-		Task<DTOs.GetSimpleObjectsResponse> GetSimpleObjectsAsync(DTOs.GetSimpleObjectsRequest request);
-		Task<DTOs.ListSimpleObjectsResponse> ListSimpleObjectsAsync(DTOs.ListSimpleObjectsRequest request);
-		Task<DTOs.FindSimpleObjectsByNameResponse> FindSimpleObjectsByNameAsync(DTOs.FindSimpleObjectsByNameRequest request);
+		Task<DTOs.SetSimpleObjectsResponse> SetSimpleObjectsAsync(DTOs.SetSimpleObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.GetSimpleObjectsResponse> GetSimpleObjectsAsync(DTOs.GetSimpleObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.ListSimpleObjectsResponse> ListSimpleObjectsAsync(DTOs.ListSimpleObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.FindSimpleObjectsByNameResponse> FindSimpleObjectsByNameAsync(DTOs.FindSimpleObjectsByNameRequest request, System.Threading.CancellationToken cancellationToken = default);
 		
-		Task<DTOs.SetComplexObjectsResponse> SetComplexObjectsAsync(DTOs.SetComplexObjectsRequest request);
-		Task<DTOs.GetComplexObjectsResponse> GetComplexObjectsAsync(DTOs.GetComplexObjectsRequest request);
-		Task<DTOs.ListComplexObjectsResponse> ListComplexObjectsAsync(DTOs.ListComplexObjectsRequest request);
-		Task<DTOs.FindComplexObjectsByNameResponse> FindComplexObjectsByNameAsync(DTOs.FindComplexObjectsByNameRequest request);
+		Task<DTOs.SetComplexObjectsResponse> SetComplexObjectsAsync(DTOs.SetComplexObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.GetComplexObjectsResponse> GetComplexObjectsAsync(DTOs.GetComplexObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.ListComplexObjectsResponse> ListComplexObjectsAsync(DTOs.ListComplexObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.FindComplexObjectsByNameResponse> FindComplexObjectsByNameAsync(DTOs.FindComplexObjectsByNameRequest request, System.Threading.CancellationToken cancellationToken = default);
 		
-		Task<DTOs.SetMoreComplexObjectsResponse> SetMoreComplexObjectsAsync(DTOs.SetMoreComplexObjectsRequest request);
-		Task<DTOs.GetMoreComplexObjectsResponse> GetMoreComplexObjectsAsync(DTOs.GetMoreComplexObjectsRequest request);
-		Task<DTOs.ListMoreComplexObjectsResponse> ListMoreComplexObjectsAsync(DTOs.ListMoreComplexObjectsRequest request);
-		Task<DTOs.FindMoreComplexObjectsByNameResponse> FindMoreComplexObjectsByNameAsync(DTOs.FindMoreComplexObjectsByNameRequest request);
+		Task<DTOs.SetMoreComplexObjectsResponse> SetMoreComplexObjectsAsync(DTOs.SetMoreComplexObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.GetMoreComplexObjectsResponse> GetMoreComplexObjectsAsync(DTOs.GetMoreComplexObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.ListMoreComplexObjectsResponse> ListMoreComplexObjectsAsync(DTOs.ListMoreComplexObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.FindMoreComplexObjectsByNameResponse> FindMoreComplexObjectsByNameAsync(DTOs.FindMoreComplexObjectsByNameRequest request, System.Threading.CancellationToken cancellationToken = default);
 		
-		Task<DTOs.SetCachedObjectsResponse> SetCachedObjectsAsync(DTOs.SetCachedObjectsRequest request);
-		Task<DTOs.GetCachedObjectsResponse> GetCachedObjectsAsync(DTOs.GetCachedObjectsRequest request);
-		Task<DTOs.ListCachedObjectsResponse> ListCachedObjectsAsync(DTOs.ListCachedObjectsRequest request);
-		Task<DTOs.FindCachedObjectsByNameResponse> FindCachedObjectsByNameAsync(DTOs.FindCachedObjectsByNameRequest request);
+		Task<DTOs.SetCachedObjectsResponse> SetCachedObjectsAsync(DTOs.SetCachedObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.GetCachedObjectsResponse> GetCachedObjectsAsync(DTOs.GetCachedObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.ListCachedObjectsResponse> ListCachedObjectsAsync(DTOs.ListCachedObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
+		Task<DTOs.FindCachedObjectsByNameResponse> FindCachedObjectsByNameAsync(DTOs.FindCachedObjectsByNameRequest request, System.Threading.CancellationToken cancellationToken = default);
 	}
 }

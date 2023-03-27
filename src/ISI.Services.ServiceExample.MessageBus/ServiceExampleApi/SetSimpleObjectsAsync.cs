@@ -28,7 +28,7 @@ namespace ISI.Services.ServiceExample.MessageBus
 {
 	public partial class ServiceExampleApi
 	{
-		public async Task<DTOs.SetSimpleObjectsResponse> SetSimpleObjectsAsync(DTOs.SetSimpleObjectsRequest request)
+		public async Task<DTOs.SetSimpleObjectsResponse> SetSimpleObjectsAsync(DTOs.SetSimpleObjectsRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.SetSimpleObjectsResponse();
 			
@@ -37,7 +37,7 @@ namespace ISI.Services.ServiceExample.MessageBus
 				SimpleObjects = request.SimpleObjects.ToNullCheckedArray(Convert),
 			};
 
-			var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.SetSimpleObjectsRequest, MESSAGEBUS.SetSimpleObjectsResponse>(serviceRequest, cancellationToken: request.CancellationToken);
+			var serviceResponse = await MessageBus.PublishAsync<MESSAGEBUS.SetSimpleObjectsRequest, MESSAGEBUS.SetSimpleObjectsResponse>(serviceRequest, cancellationToken: cancellationToken);
 
 			response.SimpleObjects = serviceResponse.SimpleObjects.NullCheckedSelect(Convert);
 
