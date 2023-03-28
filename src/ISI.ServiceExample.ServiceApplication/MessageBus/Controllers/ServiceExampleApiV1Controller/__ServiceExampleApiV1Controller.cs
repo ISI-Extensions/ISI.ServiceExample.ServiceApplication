@@ -25,6 +25,7 @@ using DTOs = ISI.ServiceExample.DataTransferObjects.ServiceExampleApi;
 
 namespace ISI.ServiceExample.ServiceApplication.MessageBus.Controllers
 {
+	[ISI.Extensions.MessageBus.MessageBusController]
 	public partial class ServiceExampleApiV1Controller
 	{
 		protected Microsoft.Extensions.Logging.ILogger Logger { get; }
