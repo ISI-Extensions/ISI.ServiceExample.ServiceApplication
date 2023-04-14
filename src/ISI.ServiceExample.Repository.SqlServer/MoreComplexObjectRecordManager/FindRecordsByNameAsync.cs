@@ -24,7 +24,7 @@ namespace ISI.ServiceExample.Repository.SqlServer
 {
 	public partial class MoreComplexObjectRecordManager
 	{
-		public async IAsyncEnumerable<MoreComplexObjectRecord> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1)
+		public async Task<IEnumerable<MoreComplexObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1)
 		{
 			var filters = new ISI.Extensions.Repository.RecordWhereColumnCollection<MoreComplexObjectRecord>();
 
@@ -32,10 +32,7 @@ namespace ISI.ServiceExample.Repository.SqlServer
 
 			var whereClause = GenerateWhereClause(filters);
 
-			await foreach (var record in FindRecordsAsync(whereClause, null, skip, take))
-			{
-				yield return record;
-			}
+			return await FindRecordsAsync(whereClause, null, skip, take);
 		}
 	}
 }

@@ -29,14 +29,7 @@ namespace ISI.ServiceExample.Repository
 		{
 			var response = new DTOs.FindMoreComplexObjectsByNameResponse();
 			
-			var moreComplexObjects = new List<MoreComplexObject>();
-
-			await foreach (var record in MoreComplexObjectRecordManager.FindRecordsByNameAsync(request.Names).WithCancellation(cancellationToken).ConfigureAwait(false))
-			{
-				moreComplexObjects.Add(Convert(record));
-			}
-
-			response.MoreComplexObjects = moreComplexObjects;
+			response.MoreComplexObjects = (await MoreComplexObjectRecordManager.FindRecordsByNameAsync(request.Names)).Select(Convert);
 
 			return response;
 		}

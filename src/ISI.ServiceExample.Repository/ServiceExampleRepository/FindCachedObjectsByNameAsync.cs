@@ -28,15 +28,8 @@ namespace ISI.ServiceExample.Repository
 		public async Task<DTOs.FindCachedObjectsByNameResponse> FindCachedObjectsByNameAsync(DTOs.FindCachedObjectsByNameRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.FindCachedObjectsByNameResponse();
-			
-			var cachedObjects = new List<CachedObject>();
 
-			await foreach (var record in CachedObjectRecordManager.FindRecordsByNameAsync(request.Names).WithCancellation(cancellationToken).ConfigureAwait(false))
-			{
-				cachedObjects.Add(Convert(record));
-			}
-
-			response.CachedObjects = cachedObjects;
+			response.CachedObjects = (await CachedObjectRecordManager.FindRecordsByNameAsync(request.Names)).Select(Convert);
 
 			return response;
 		}

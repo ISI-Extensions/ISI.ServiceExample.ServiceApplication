@@ -24,14 +24,11 @@ namespace ISI.ServiceExample.Repository.CosmosDB
 {
 	public partial class SimpleObjectRecordManager
 	{
-		public async IAsyncEnumerable<SimpleObjectRecord> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1)
+		public async Task<IEnumerable<SimpleObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1)
 		{
 			var namesHash = new HashSet<string>(names, StringComparer.InvariantCulture);
 
-			await foreach (var record in FindRecordsAsync(record => namesHash.Contains(record.Name), skip, take))
-			{
-				yield return record;
-			}
+			return await FindRecordsAsync(record => namesHash.Contains(record.Name), skip, take);
 		}
 	}
 }

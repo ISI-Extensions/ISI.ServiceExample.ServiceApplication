@@ -23,9 +23,9 @@ namespace ISI.ServiceExample.Repository
 {
 	public interface ISimpleObjectRecordManager
 	{
-		IAsyncEnumerable<SimpleObjectRecord> UpsertRecordsAsync(IEnumerable<SimpleObjectRecord> records);
-		IAsyncEnumerable<SimpleObjectRecord> GetRecordsAsync(IEnumerable<Guid> simpleObjectUuids, int skip = 0, int take = -1);
-		IAsyncEnumerable<SimpleObjectRecord> ListRecordsAsync(int skip = 0, int take = -1);
-		IAsyncEnumerable<SimpleObjectRecord> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1);
+		Task<IEnumerable<SimpleObjectRecord>> UpsertRecordsAsync(IEnumerable<SimpleObjectRecord> records);
+		Task<IEnumerable<SimpleObjectRecord>> GetRecordsAsync(IEnumerable<Guid> simpleObjectUuids, int skip = 0, int take = -1);
+		Task<IEnumerable<SimpleObjectRecord>> ListRecordsAsync(int skip = 0, int take = -1);
+		Task<IEnumerable<SimpleObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1);
 	}
 }

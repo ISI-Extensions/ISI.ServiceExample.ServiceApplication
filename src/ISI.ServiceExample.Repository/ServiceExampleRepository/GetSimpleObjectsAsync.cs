@@ -29,14 +29,7 @@ namespace ISI.ServiceExample.Repository
 		{
 			var response = new DTOs.GetSimpleObjectsResponse();
 			
-			var simpleObjects = new List<SimpleObject>();
-
-			await foreach (var record in SimpleObjectRecordManager.GetRecordsAsync(request.SimpleObjectUuids).WithCancellation(cancellationToken).ConfigureAwait(false))
-			{
-				simpleObjects.Add(Convert(record));
-			}
-
-			response.SimpleObjects = simpleObjects;
+			response.SimpleObjects = (await SimpleObjectRecordManager.GetRecordsAsync(request.SimpleObjectUuids)).Select(Convert);
 
 			return response;
 		}

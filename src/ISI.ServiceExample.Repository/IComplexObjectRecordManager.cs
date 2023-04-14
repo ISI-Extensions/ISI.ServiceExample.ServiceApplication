@@ -23,9 +23,9 @@ namespace ISI.ServiceExample.Repository
 {
 	public interface IComplexObjectRecordManager
 	{
-		IAsyncEnumerable<ComplexObjectRecord> UpsertRecordsAsync(IEnumerable<ComplexObjectRecord> records);
-		IAsyncEnumerable<ComplexObjectRecord> GetRecordsAsync(IEnumerable<Guid> complexObjectUuids, int skip = 0, int take = -1);
-		IAsyncEnumerable<ComplexObjectRecord> ListRecordsAsync(int skip = 0, int take = -1);
-		IAsyncEnumerable<ComplexObjectRecord> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1);
+		Task<IEnumerable<ComplexObjectRecord>> UpsertRecordsAsync(IEnumerable<ComplexObjectRecord> records);
+		Task<IEnumerable<ComplexObjectRecord>> GetRecordsAsync(IEnumerable<Guid> complexObjectUuids, int skip = 0, int take = -1);
+		Task<IEnumerable<ComplexObjectRecord>> ListRecordsAsync(int skip = 0, int take = -1);
+		Task<IEnumerable<ComplexObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1);
 	}
 }

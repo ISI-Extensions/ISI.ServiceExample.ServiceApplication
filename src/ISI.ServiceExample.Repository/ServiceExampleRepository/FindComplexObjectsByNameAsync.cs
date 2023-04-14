@@ -28,15 +28,8 @@ namespace ISI.ServiceExample.Repository
 		public async Task<DTOs.FindComplexObjectsByNameResponse> FindComplexObjectsByNameAsync(DTOs.FindComplexObjectsByNameRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.FindComplexObjectsByNameResponse();
-			
-			var complexObjects = new List<ComplexObject>();
 
-			await foreach (var record in ComplexObjectRecordManager.FindRecordsByNameAsync(request.Names).WithCancellation(cancellationToken).ConfigureAwait(false))
-			{
-				complexObjects.Add(Convert(record));
-			}
-
-			response.ComplexObjects = complexObjects;
+			response.ComplexObjects = (await ComplexObjectRecordManager.FindRecordsByNameAsync(request.Names)).Select(Convert);
 
 			return response;
 		}

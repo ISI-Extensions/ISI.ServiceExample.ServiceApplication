@@ -29,14 +29,7 @@ namespace ISI.ServiceExample.Repository
 		{
 			var response = new DTOs.SetComplexObjectsResponse();
 			
-			var complexObjects = new List<ComplexObject>();
-
-			await foreach (var record in ComplexObjectRecordManager.UpsertRecordsAsync(request.ComplexObjects.Select(Convert)).WithCancellation(cancellationToken).ConfigureAwait(true))
-			{
-				complexObjects.Add(Convert(record));
-			}
-
-			response.ComplexObjects = complexObjects;
+			response.ComplexObjects = (await ComplexObjectRecordManager.UpsertRecordsAsync(request.ComplexObjects.Select(Convert))).Select(Convert);
 
 			return response;
 		}
