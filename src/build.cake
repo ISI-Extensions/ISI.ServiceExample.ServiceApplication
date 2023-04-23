@@ -289,14 +289,14 @@ Task("Production-Deploy")
 
 		DeployBuildArtifact(new ISI.Cake.Addin.DeploymentManager.DeployBuildArtifactRequest()
 		{
-			ServicesManagerUri = GetNullableUri(settings.GetValue("PRODUCTION-SERVER-DeployManager-Url")),
-			ServicesManagerApiKey = settings.GetValue("PRODUCTION-SERVER-DeployManager-Password"),
+			WindowsDeploymentApiUri = GetNullableUri(settings.GetValue("PRODUCTION-SERVER-DeployManager-Url")),
+			WindowsDeploymentApiKey = settings.GetValue("PRODUCTION-SERVER-DeployManager-Password"),
 
 			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
 			BuildArtifactsApiKey = authenticationToken,
 
 			BuildArtifactName = artifactName,
-			ToDateTimeStamp = dateTimeStampVersion,
+			ToDateTimeStampVersion = dateTimeStampVersion,
 			ToEnvironment = "Production",
 			ConfigurationKey = "Production",
 			Components = new ISI.Cake.Addin.DeploymentManager.IDeployComponent[]
