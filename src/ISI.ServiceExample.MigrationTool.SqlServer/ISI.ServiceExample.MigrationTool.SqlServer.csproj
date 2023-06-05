@@ -14,8 +14,8 @@
     <None Include="..\ISI.ServiceExample.licenseheader" Link="ISI.ServiceExample.licenseheader" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.8511.36753" />
-    <PackageReference Include="ISI.Extensions" Version="10.0.8511.36753" />
+    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.8552.21758" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.8552.21758" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
