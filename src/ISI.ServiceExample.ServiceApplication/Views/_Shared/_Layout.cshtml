@@ -32,7 +32,6 @@
 					</div>
 					<div class="offcanvas-body">
 						<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-
 						</ul>
 					</div>
 				</div>
@@ -50,8 +49,12 @@
 			&copy; @DateTime.UtcNow.Year - Integrated Solutions, Inc.
 		</div>
 	</footer>
-	@Html.AddJavaScript(ISI.ServiceExample.ServiceApplication.T4Links.wwwroot.lib.jquery.dist.jquery_js)
-	@Html.AddJavaScript(ISI.ServiceExample.ServiceApplication.T4Links.wwwroot.lib.bootstrap.dist.js.bootstrap_bundle_js)
+	@Html.AddJavaScript(T4Links.wwwroot.lib.jquery.dist.jquery_js)
+	@Html.AddJavaScript(ISI.Extensions.AspNetCore.T4Links.JavaScripts.jQueryNamespace_js)
+	@Html.AddJavaScript(T4Links.wwwroot.lib.jquery_validation.dist.jquery_validate_js)
+	@Html.AddJavaScript(T4Links.wwwroot.lib.jquery_validation_unobtrusive.jquery_validate_unobtrusive_js)
+	@Html.AddJavaScript(ISI.Extensions.AspNetCore.T4Links.JavaScripts.DataAnnotations.DataAnnotationValidationRules_js)
+	@Html.AddJavaScript(T4Links.wwwroot.lib.bootstrap.dist.js.bootstrap_bundle_js)
 	@Html.AddJavaScript(ISI.ServiceExample.ServiceApplication.T4Links.wwwroot.JavaScripts._Shared._Layout_js)
 	@RenderSection("JavaScriptIncludes", false)
 	@RenderSection("JavaScriptContent", false)

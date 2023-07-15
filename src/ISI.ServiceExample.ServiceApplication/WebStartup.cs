@@ -28,13 +28,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ISI.Extensions.AspNetCore.Extensions;
+
 namespace ISI.ServiceExample.ServiceApplication
 {
-	public class Startup
+	public class WebStartup
 	{
 		public const string ServiceVersion = "v1";
 
-		public Startup(IConfiguration configuration)
+		public WebStartup(IConfiguration configuration)
 		{
 			Configuration = configuration;
 		}
@@ -46,6 +48,7 @@ namespace ISI.ServiceExample.ServiceApplication
 		{
 			services
 				.AddControllersWithViews()
+				.AddISIAspNetCore()
 				.AddRazorRuntimeCompilation(options => options.FileProviders.Add(new ISI.Extensions.VirtualFileVolumesFileProvider()))
 				.AddNewtonsoftJson(options =>
 				{
@@ -68,7 +71,7 @@ namespace ISI.ServiceExample.ServiceApplication
 			{
 				swaggerGenOptions.CustomOperationIds(apiDescription => apiDescription.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name.TrimEnd("Async") : null);
 
-				swaggerGenOptions.SwaggerDoc(ServiceVersion, new Microsoft.OpenApi.Models.OpenApiInfo { Title = typeof(Startup).Namespace, Version = ServiceVersion });
+				swaggerGenOptions.SwaggerDoc(ServiceVersion, new Microsoft.OpenApi.Models.OpenApiInfo { Title = typeof(WebStartup).Namespace, Version = ServiceVersion });
 
 				swaggerGenOptions.AddSecurityDefinition(AuthenticationHandler.Keys.Bearer, new Microsoft.OpenApi.Models.OpenApiSecurityScheme
 				{
@@ -134,7 +137,7 @@ namespace ISI.ServiceExample.ServiceApplication
 			applicationBuilder.UseAuthorization();
 
 			applicationBuilder.UseSwagger();
-			applicationBuilder.UseSwaggerUI(c => c.SwaggerEndpoint(string.Format("/swagger/{0}/swagger.json", ServiceVersion), string.Format("{0} {1}", typeof(Startup).Namespace, ServiceVersion)));
+			applicationBuilder.UseSwaggerUI(c => c.SwaggerEndpoint(string.Format("/swagger/{0}/swagger.json", ServiceVersion), string.Format("{0} {1}", typeof(WebStartup).Namespace, ServiceVersion)));
 
 			applicationBuilder.UseEndpoints(endpointRouteBuilder =>
 			{
