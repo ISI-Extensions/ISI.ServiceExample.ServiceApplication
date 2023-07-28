@@ -234,26 +234,21 @@ Task("Publish")
 	{
 		var nupkgFiles = GetFiles(MakeAbsolute(Directory(nugetPackOutputDirectory)) + "/*.nupkg");
 
-		NupkgPush(new ISI.Cake.Addin.Nuget.NupkgPushRequest()
+		NupkgPush(new ISI.Cake.Addin.Nuget.NupkgPushUsingSettingsActiveDirectoryRequest()
 		{
 			NupkgPaths = nupkgFiles,
-			ApiKey = settings.Nuget.ApiKey,
-			RepositoryName = settings.Nuget.RepositoryName,
-			RepositoryUri = GetNullableUri(settings.Nuget.RepositoryUrl),
-			PackageChunksRepositoryUri = GetNullableUri(settings.Nuget.PackageChunksRepositoryUrl),
+			Settings = settings,
 		});
 
-		var authenticationToken = GetBuildArtifactsAuthenticationToken(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactsAuthenticationTokenRequest()
+		var buildArtifactsApiKey = GetBuildArtifactsApiKey(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactsApiKeyUsingSettingsActiveDirectoryRequest()
 		{
-			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
-			UserName = settings.ActiveDirectory.GetDomainUserName(),
-			Password = settings.ActiveDirectory.Password,
-		}).AuthenticationToken;
+			Settings = settings,
+		}).BuildArtifactsApiKey;
 
 		UploadBuildArtifact(new ISI.Cake.Addin.BuildArtifacts.UploadBuildArtifactRequest()
 		{
 			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
-			BuildArtifactsApiKey = authenticationToken,
+			BuildArtifactsApiKey = buildArtifactsApiKey,
 			SourceFileName = buildArtifactZipFile.Path.FullPath,
 			BuildArtifactName = artifactName,
 			DateTimeStampVersion = buildDateTimeStampVersion,
@@ -262,7 +257,7 @@ Task("Publish")
 		SetBuildArtifactEnvironmentDateTimeStampVersion(new ISI.Cake.Addin.BuildArtifacts.SetBuildArtifactEnvironmentDateTimeStampVersionRequest()
 		{
 			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
-			BuildArtifactsApiKey = authenticationToken,
+			BuildArtifactsApiKey = buildArtifactsApiKey,
 			BuildArtifactName = artifactName,
 			Environment = "Build",
 			DateTimeStampVersion = buildDateTimeStampVersion,
@@ -272,17 +267,15 @@ Task("Publish")
 Task("Production-Deploy")
 	.Does(() => 
 	{
-		var authenticationToken = GetBuildArtifactsAuthenticationToken(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactsAuthenticationTokenRequest()
+		var buildArtifactsApiKey = GetBuildArtifactsApiKey(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactsApiKeyUsingSettingsActiveDirectoryRequest()
 		{
-			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
-			UserName = settings.ActiveDirectory.GetDomainUserName(),
-			Password = settings.ActiveDirectory.Password,
-		}).AuthenticationToken;
+			Settings = settings,
+		}).BuildArtifactsApiKey;
 
 		var dateTimeStampVersion = GetBuildArtifactEnvironmentDateTimeStampVersion(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactEnvironmentDateTimeStampVersionRequest()
 		{
 			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
-			BuildArtifactsApiKey = authenticationToken,
+			BuildArtifactsApiKey = buildArtifactsApiKey,
 			BuildArtifactName = artifactName,
 			Environment = "Build",
 		}).DateTimeStampVersion;
@@ -293,7 +286,7 @@ Task("Production-Deploy")
 			WindowsDeploymentApiKey = settings.GetValue("PRODUCTION-SERVER-DeployManager-Password"),
 
 			BuildArtifactsApiUri = GetNullableUri(settings.BuildArtifacts.ApiUrl),
-			BuildArtifactsApiKey = authenticationToken,
+			BuildArtifactsApiKey = buildArtifactsApiKey,
 
 			BuildArtifactName = artifactName,
 			ToDateTimeStampVersion = dateTimeStampVersion,
