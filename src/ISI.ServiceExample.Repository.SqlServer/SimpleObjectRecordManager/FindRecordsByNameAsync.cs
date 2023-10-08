@@ -24,7 +24,7 @@ namespace ISI.ServiceExample.Repository.SqlServer
 {
 	public partial class SimpleObjectRecordManager
 	{
-		public async Task<IEnumerable<SimpleObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1)
+		public async Task<IEnumerable<SimpleObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var filters = new ISI.Extensions.Repository.RecordWhereColumnCollection<SimpleObjectRecord>();
 
@@ -32,7 +32,7 @@ namespace ISI.ServiceExample.Repository.SqlServer
 
 			var whereClause = GenerateWhereClause(filters);
 
-			return await FindRecordsAsync(whereClause, null, skip, take);
+			return await FindRecordsAsync(whereClause, null, skip, take, cancellationToken: cancellationToken);
 		}
 	}
 }

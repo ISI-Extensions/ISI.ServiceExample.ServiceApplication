@@ -29,7 +29,7 @@ namespace ISI.ServiceExample.Repository
 		{
 			var response = new DTOs.SetSimpleObjectsResponse();
 			
-			response.SimpleObjects = (await SimpleObjectRecordManager.UpsertRecordsAsync(request.SimpleObjects.Select(Convert))).Select(Convert);
+			response.SimpleObjects = (await SimpleObjectRecordManager.UpsertRecordsAsync(request.SimpleObjects.Select(Convert), cancellationToken)).Select(Convert);
 
 			return response;
 		}

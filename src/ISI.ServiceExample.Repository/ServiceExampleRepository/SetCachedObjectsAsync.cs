@@ -29,7 +29,7 @@ namespace ISI.ServiceExample.Repository
 		{
 			var response = new DTOs.SetCachedObjectsResponse();
 
-			response.CachedObjects = (await CachedObjectRecordManager.UpsertRecordsAsync(request.CachedObjects.Select(Convert))).Select(Convert);
+			response.CachedObjects = (await CachedObjectRecordManager.UpsertRecordsAsync(request.CachedObjects.Select(Convert), cancellationToken)).Select(Convert);
 
 			return response;
 		}

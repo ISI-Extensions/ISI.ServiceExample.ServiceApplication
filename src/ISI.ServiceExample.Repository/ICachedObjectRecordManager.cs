@@ -23,9 +23,9 @@ namespace ISI.ServiceExample.Repository
 {
 	public interface ICachedObjectRecordManager
 	{
-		Task<IEnumerable<CachedObjectRecord>> UpsertRecordsAsync(IEnumerable<CachedObjectRecord> records);
-		Task<IEnumerable<CachedObjectRecord>> GetRecordsAsync(IEnumerable<Guid> cachedObjectUuids, int skip = 0, int take = -1);
-		Task<IEnumerable<CachedObjectRecord>> ListRecordsAsync(int skip = 0, int take = -1);
-		Task<IEnumerable<CachedObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1);
+		Task<IEnumerable<CachedObjectRecord>> UpsertRecordsAsync(IEnumerable<CachedObjectRecord> records, System.Threading.CancellationToken cancellationToken = default);
+		Task<IEnumerable<CachedObjectRecord>> GetRecordsAsync(IEnumerable<Guid> cachedObjectUuids, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
+		Task<IEnumerable<CachedObjectRecord>> ListRecordsAsync(int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
+		Task<IEnumerable<CachedObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
 	}
 }
