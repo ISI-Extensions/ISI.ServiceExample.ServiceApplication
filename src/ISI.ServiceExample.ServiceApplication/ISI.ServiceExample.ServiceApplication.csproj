@@ -1,141 +1,141 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
-		<LangVersion>latest</LangVersion>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<Deterministic>false</Deterministic>
-		<Platforms>AnyCPU;x64</Platforms>
-		<ApplicationIcon>Lantern.ico</ApplicationIcon>
-	</PropertyGroup>
-	<ItemGroup>
-		<Compile Include="..\ISI.ServiceExample.AssemblyInfo.cs" Link="Properties\ISI.ServiceExample.AssemblyInfo.cs" />
-		<Compile Include="..\ISI.ServiceExample.Version.cs" Link="Properties\ISI.ServiceExample.Version.cs" />
-		<None Include="..\ISI.ServiceExample.licenseheader" Link="ISI.ServiceExample.licenseheader" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
-		<None Include="wwwroot\lib\bootstrap\LICENSE" />
-		<None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
-		<None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
-		<None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
-		<None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
-		<None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
-		<None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
-		<None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
-		<None Include="wwwroot\lib\jquery\dist\jquery.js" />
-		<None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
-		<None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Update="NETStandard.Library" Version="2.0.3" />
-		<PackageReference Include="ISI.Extensions" Version="10.0.8681.2779" />
-		<PackageReference Include="ISI.Extensions.AspNetCore" Version="10.0.8681.2779" />
-		<PackageReference Include="ISI.Extensions.Caching.MessageBus" Version="10.0.8681.2779" />
-		<PackageReference Include="ISI.Extensions.Caching.Redis" Version="10.0.8681.2779" />
-		<PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.8681.2779" />
-		<PackageReference Include="ISI.Extensions.MessageBus.MassTransit.RabbitMQ" Version="10.0.8681.2779" />
-		<PackageReference Include="ISI.Extensions.Topshelf" Version="10.0.8681.2779" />
-		<PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.11" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.11" />
-		<PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-		<PackageReference Include="Microsoft.NET.Build.Containers" Version="7.0.401" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
-		<PackageReference Include="Serilog" Version="3.0.1" />
-		<PackageReference Include="Serilog.Enrichers.AssemblyName" Version="1.0.9" />
-		<PackageReference Include="Serilog.Enrichers.EnrichedProperties" Version="1.0.63" />
-		<PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
-		<PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
-		<PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
-		<PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
-		<PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
-		<PackageReference Include="Serilog.Formatting.Elasticsearch" Version="9.0.3" />
-		<PackageReference Include="Serilog.Settings.Configuration" Version="7.0.1" />
-		<PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
-		<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
-		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.3.0" />
-		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.3" GeneratePathProperty="true" />
-		<PackageReference Include="Topshelf" Version="4.3.0" />
-		<PackageReference Include="Topshelf.Serilog" Version="4.3.0" />
-		<PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
-		<PackageReference Include="Topshelf" Version="4.3.0" />
-		<PackageReference Include="Topshelf.Serilog" Version="4.3.0" />
-		<PackageReference Update="NETStandard.Library" Version="2.0.3" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\ISI.ServiceExample.Api\ISI.ServiceExample.Api.csproj" />
-		<ProjectReference Include="..\ISI.ServiceExample.Repository.SqlServer\ISI.ServiceExample.Repository.SqlServer.csproj" />
-		<ProjectReference Include="..\ISI.ServiceExample.Repository\ISI.ServiceExample.Repository.csproj" />
-		<ProjectReference Include="..\ISI.ServiceExample\ISI.ServiceExample.csproj" />
-		<ProjectReference Include="..\ISI.Services.ServiceExample.MessageBus\ISI.Services.ServiceExample.MessageBus.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="appsettings.qa.json">
-			<DependentUpon>appsettings.json</DependentUpon>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="appsettings.uat.json">
-			<DependentUpon>appsettings.json</DependentUpon>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="appsettings.production.json">
-			<DependentUpon>appsettings.json</DependentUpon>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="appsettings.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="T4LocalContent\T4LocalContent.tt">
-		  <Generator>TextTemplatingFileGenerator</Generator>
-		  <LastGenOutput>T4LocalContent.generatedcode.cs</LastGenOutput>
-		</None>
-	</ItemGroup>
-	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Compile Update="T4LocalContent\T4LocalContent.generatedcode.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>T4LocalContent.tt</DependentUpon>
-	  </Compile>
-	</ItemGroup>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
+    <Platforms>AnyCPU;x64</Platforms>
+    <ApplicationIcon>Lantern.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\ISI.ServiceExample.AssemblyInfo.cs" Link="Properties\ISI.ServiceExample.AssemblyInfo.cs" />
+    <Compile Include="..\ISI.ServiceExample.Version.cs" Link="Properties\ISI.ServiceExample.Version.cs" />
+    <None Include="..\ISI.ServiceExample.licenseheader" Link="ISI.ServiceExample.licenseheader" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.8700.39170" />
+    <PackageReference Include="ISI.Extensions.AspNetCore" Version="10.0.8700.39170" />
+    <PackageReference Include="ISI.Extensions.Caching.MessageBus" Version="10.0.8700.39170" />
+    <PackageReference Include="ISI.Extensions.Caching.Redis" Version="10.0.8700.39170" />
+    <PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.8700.39170" />
+    <PackageReference Include="ISI.Extensions.MessageBus.MassTransit.RabbitMQ" Version="10.0.8700.39170" />
+    <PackageReference Include="ISI.Extensions.Topshelf" Version="10.0.8700.39170" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Microsoft.NET.Build.Containers" Version="7.0.403" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+    <PackageReference Include="Serilog" Version="3.0.1" />
+    <PackageReference Include="Serilog.Enrichers.AssemblyName" Version="1.0.9" />
+    <PackageReference Include="Serilog.Enrichers.EnrichedProperties" Version="1.0.63" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
+    <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Serilog.Formatting.Elasticsearch" Version="9.0.3" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.3.0" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.3" GeneratePathProperty="true" />
+    <PackageReference Include="Topshelf" Version="4.3.0" />
+    <PackageReference Include="Topshelf.Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
+    <PackageReference Include="Topshelf" Version="4.3.0" />
+    <PackageReference Include="Topshelf.Serilog" Version="4.3.0" />
+    <PackageReference Update="NETStandard.Library" Version="2.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ISI.ServiceExample.Api\ISI.ServiceExample.Api.csproj" />
+    <ProjectReference Include="..\ISI.ServiceExample.Repository.SqlServer\ISI.ServiceExample.Repository.SqlServer.csproj" />
+    <ProjectReference Include="..\ISI.ServiceExample.Repository\ISI.ServiceExample.Repository.csproj" />
+    <ProjectReference Include="..\ISI.ServiceExample\ISI.ServiceExample.csproj" />
+    <ProjectReference Include="..\ISI.Services.ServiceExample.MessageBus\ISI.Services.ServiceExample.MessageBus.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.qa.json">
+      <DependentUpon>appsettings.json</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.uat.json">
+      <DependentUpon>appsettings.json</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.production.json">
+      <DependentUpon>appsettings.json</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="T4LocalContent\T4LocalContent.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>T4LocalContent.generatedcode.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="T4LocalContent\T4LocalContent.generatedcode.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>T4LocalContent.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
