@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MESSAGEBUS = ISI.Services.ServiceExample.MessageBus.SerializableModels.ServiceExampleApiV1;
+using MESSAGEBUS = ISI.Services.ServiceExample.SerializableModels.MessageBus.ServiceExampleApiV1;
 
 namespace ISI.ServiceExample.ServiceApplication.MessageBus
 {
@@ -33,25 +33,25 @@ namespace ISI.ServiceExample.ServiceApplication.MessageBus
 
 				response.AddSubscriptions.Add(messageQueueConfigurator =>
 				{
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetSimpleObjectsRequest, MESSAGEBUS.SetSimpleObjectsResponse>(async (service, request) => await service.SetSimpleObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetSimpleObjectsRequest, MESSAGEBUS.GetSimpleObjectsResponse>(async (service, request) => await service.GetSimpleObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListSimpleObjectsRequest, MESSAGEBUS.ListSimpleObjectsResponse>(async (service, request) => await service.ListSimpleObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindSimpleObjectsByNameRequest, MESSAGEBUS.FindSimpleObjectsByNameResponse>(async (service, request) => await service.FindSimpleObjectsByNameAsync(request));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetSimpleObjectsRequest, MESSAGEBUS.SetSimpleObjectsResponse>(async (service, request, cancellationToken) => await service.SetSimpleObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetSimpleObjectsRequest, MESSAGEBUS.GetSimpleObjectsResponse>(async (service, request, cancellationToken) => await service.GetSimpleObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListSimpleObjectsRequest, MESSAGEBUS.ListSimpleObjectsResponse>(async (service, request, cancellationToken) => await service.ListSimpleObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindSimpleObjectsByNameRequest, MESSAGEBUS.FindSimpleObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindSimpleObjectsByNameAsync(request, cancellationToken));
 
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetComplexObjectsRequest, MESSAGEBUS.SetComplexObjectsResponse>(async (service, request) => await service.SetComplexObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetComplexObjectsRequest, MESSAGEBUS.GetComplexObjectsResponse>(async (service, request) => await service.GetComplexObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListComplexObjectsRequest, MESSAGEBUS.ListComplexObjectsResponse>(async (service, request) => await service.ListComplexObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindComplexObjectsByNameRequest, MESSAGEBUS.FindComplexObjectsByNameResponse>(async (service, request) => await service.FindComplexObjectsByNameAsync(request));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetComplexObjectsRequest, MESSAGEBUS.SetComplexObjectsResponse>(async (service, request, cancellationToken) => await service.SetComplexObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetComplexObjectsRequest, MESSAGEBUS.GetComplexObjectsResponse>(async (service, request, cancellationToken) => await service.GetComplexObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListComplexObjectsRequest, MESSAGEBUS.ListComplexObjectsResponse>(async (service, request, cancellationToken) => await service.ListComplexObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindComplexObjectsByNameRequest, MESSAGEBUS.FindComplexObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindComplexObjectsByNameAsync(request, cancellationToken));
 
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetMoreComplexObjectsRequest, MESSAGEBUS.SetMoreComplexObjectsResponse>(async (service, request) => await service.SetMoreComplexObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetMoreComplexObjectsRequest, MESSAGEBUS.GetMoreComplexObjectsResponse>(async (service, request) => await service.GetMoreComplexObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListMoreComplexObjectsRequest, MESSAGEBUS.ListMoreComplexObjectsResponse>(async (service, request) => await service.ListMoreComplexObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindMoreComplexObjectsByNameRequest, MESSAGEBUS.FindMoreComplexObjectsByNameResponse>(async (service, request) => await service.FindMoreComplexObjectsByNameAsync(request));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetMoreComplexObjectsRequest, MESSAGEBUS.SetMoreComplexObjectsResponse>(async (service, request, cancellationToken) => await service.SetMoreComplexObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetMoreComplexObjectsRequest, MESSAGEBUS.GetMoreComplexObjectsResponse>(async (service, request, cancellationToken) => await service.GetMoreComplexObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListMoreComplexObjectsRequest, MESSAGEBUS.ListMoreComplexObjectsResponse>(async (service, request, cancellationToken) => await service.ListMoreComplexObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindMoreComplexObjectsByNameRequest, MESSAGEBUS.FindMoreComplexObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindMoreComplexObjectsByNameAsync(request, cancellationToken));
 
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetCachedObjectsRequest, MESSAGEBUS.SetCachedObjectsResponse>(async (service, request) => await service.SetCachedObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetCachedObjectsRequest, MESSAGEBUS.GetCachedObjectsResponse>(async (service, request) => await service.GetCachedObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListCachedObjectsRequest, MESSAGEBUS.ListCachedObjectsResponse>(async (service, request) => await service.ListCachedObjectsAsync(request));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindCachedObjectsByNameRequest, MESSAGEBUS.FindCachedObjectsByNameResponse>(async (service, request) => await service.FindCachedObjectsByNameAsync(request));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetCachedObjectsRequest, MESSAGEBUS.SetCachedObjectsResponse>(async (service, request, cancellationToken) => await service.SetCachedObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetCachedObjectsRequest, MESSAGEBUS.GetCachedObjectsResponse>(async (service, request, cancellationToken) => await service.GetCachedObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListCachedObjectsRequest, MESSAGEBUS.ListCachedObjectsResponse>(async (service, request, cancellationToken) => await service.ListCachedObjectsAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindCachedObjectsByNameRequest, MESSAGEBUS.FindCachedObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindCachedObjectsByNameAsync(request, cancellationToken));
 				});
 
 				return response;

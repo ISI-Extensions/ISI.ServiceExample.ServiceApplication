@@ -43,5 +43,6 @@ namespace ISI.ServiceExample
 		Task<DTOs.GetCachedObjectsResponse> GetCachedObjectsAsync(DTOs.GetCachedObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
 		Task<DTOs.ListCachedObjectsResponse> ListCachedObjectsAsync(DTOs.ListCachedObjectsRequest request, System.Threading.CancellationToken cancellationToken = default);
 		Task<DTOs.FindCachedObjectsByNameResponse> FindCachedObjectsByNameAsync(DTOs.FindCachedObjectsByNameRequest request, System.Threading.CancellationToken cancellationToken = default);
+		DTOs.RunRecordManagerMigrationToolResponse RunRecordManagerMigrationTool(DTOs.RunRecordManagerMigrationToolRequest request);
 	}
 }

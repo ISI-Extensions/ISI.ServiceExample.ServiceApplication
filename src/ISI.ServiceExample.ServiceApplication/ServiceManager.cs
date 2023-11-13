@@ -12,7 +12,7 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #endregion
- 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,29 +53,18 @@ namespace ISI.ServiceExample.ServiceApplication
 							.AddConfiguration<Microsoft.Extensions.Hosting.HostOptions>(configurationRoot)
 
 							.AddConfigurationRegistrations(configurationRoot)
-							.ProcessServiceRegistrars()
+							.ProcessServiceRegistrars(configurationRoot)
 
-							//.AddSingleton<ISI.Extensions.StatusTrackers.FileStatusTrackerFactory>()
-							//.AddSingleton<ISI.Extensions.JsonSerialization.Newtonsoft.NewtonsoftJsonSerializer>()
-
-							//.AddSingleton<ISI.Extensions.Threads.ThreadManager>()
-
-							//.AddSingleton<Microsoft.Extensions.Logging.ILoggerFactory, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory>()
-							//.AddSingleton<Microsoft.Extensions.Logging.ILoggerFactory, Microsoft.Extensions.Logging.LoggerFactory>()
-							//.AddLogging(builder => builder
-							//	.AddConsole()
-							////.AddFilter(level => level >= Microsoft.Extensions.Logging.LogLevel.Information)
-							//)
 							.AddTransient<Microsoft.Extensions.Logging.ILogger>(serviceProvider => serviceProvider.GetService<Microsoft.Extensions.Logging.ILoggerFactory>().CreateLogger<Program>())
 							.AddSingleton<Microsoft.Extensions.FileProviders.IFileProvider>(provider => provider.GetService<Microsoft.Extensions.Options.IOptions<Microsoft.AspNetCore.Builder.StaticFileOptions>>().Value.FileProvider)
 
 							.AddSingleton<Microsoft.Extensions.Caching.Memory.IMemoryCache>(provider => new Microsoft.Extensions.Caching.Memory.MemoryCache(new Microsoft.Extensions.Caching.Memory.MemoryCacheOptions()))
 							.AddSingleton<ISI.Extensions.Caching.ICacheManager, ISI.Extensions.Caching.CacheManager<Microsoft.Extensions.Caching.Memory.IMemoryCache>>()
-
-							.AddSingleton<ISI.Extensions.Caching.ICacheManager, ISI.Extensions.Caching.CacheManager<Microsoft.Extensions.Caching.Memory.IMemoryCache>>()
 							.AddSingleton<ISI.Extensions.Caching.IEnterpriseCacheManagerApi, ISI.Extensions.Caching.MessageBus.EnterpriseCacheManagerApi>()
 
 							.AddMessageBus(configurationRoot)
+
+							.ProcessMigrationSteps()
 							;
 					});
 
@@ -90,12 +79,10 @@ namespace ISI.ServiceExample.ServiceApplication
 					});
 				})
 
-				//.UseServiceProviderFactory(new ISI.Extensions.DependencyInjection.ServiceProviderFactory(configurationRoot))
-
 				.Build();
 
 
-			await _host.StartAsync().ContinueWith( _ =>
+			await _host.StartAsync().ContinueWith(_ =>
 			{
 				var server = _host.Services.GetRequiredService<global::Microsoft.AspNetCore.Hosting.Server.IServer>();
 				var addressFeature = server.Features.Get<global::Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature>();
@@ -106,15 +93,22 @@ namespace ISI.ServiceExample.ServiceApplication
 					Serilog.Log.Information($"  {address}");
 				}
 
-				_messageBus = _host.Services.GetRequiredService<ISI.Extensions.MessageBus.IMessageBus>();
+				var configuration = configurationRoot.GetConfiguration<Configuration>();
 
-				_messageBus.Build(_host.Services, new ISI.Extensions.MessageBus.MessageBusBuildRequestCollection()
+				if (configuration.UseMessageBus)
 				{
-					ISI.ServiceExample.ServiceApplication.MessageBus.Subscriptions.GetAddSubscriptions,
-					ISI.Extensions.Caching.MessageBus.Subscriptions.GetAddSubscriptions,
-				});
+					_messageBus = _host.Services.GetRequiredService<ISI.Extensions.MessageBus.IMessageBus>();
 
-				_messageBus.StartAsync();
+					_messageBus.Build(_host.Services, new ISI.Extensions.MessageBus.MessageBusBuildRequestCollection()
+					{
+						ISI.ServiceExample.ServiceApplication.MessageBus.Subscriptions.GetAddSubscriptions,
+						ISI.Extensions.Caching.MessageBus.Subscriptions.GetAddSubscriptions,
+					});
+
+					_messageBus.StartAsync();
+				}
+
+				_host.Services.GetService<IServiceExampleApi>().RunRecordManagerMigrationTool(new());
 
 				return _host.Services.SetServiceLocator();
 			});
@@ -126,12 +120,15 @@ namespace ISI.ServiceExample.ServiceApplication
 		{
 			await _host.StopAsync();
 
-			await _messageBus.StopAsync();
+			if (_messageBus != null)
+			{
+				await _messageBus.StopAsync();
+			}
 
 			ISI.Extensions.Threads.ExitAll();
 
 			_host.Dispose();
-			_messageBus.Dispose();
+			_messageBus?.Dispose();
 
 			return true;
 		}

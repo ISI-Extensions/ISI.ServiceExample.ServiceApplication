@@ -37,14 +37,14 @@ namespace ISI.ServiceExample.Api.Tests
 			configurationBuilder.AddClassicConnectionStringsSectionFile($"{connectionStringPath}connectionStrings.config");
 			configurationBuilder.AddClassicConnectionStringsSectionFiles(activeEnvironment.ActiveEnvironments, environment => $"{connectionStringPath}connectionStrings.{environment}.config");
 
-			var configuration = configurationBuilder.Build();
+			var configurationRoot = configurationBuilder.Build().ApplyConfigurationValueReaders();
 
 			var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection()
 				.AddOptions()
-				.AddSingleton<Microsoft.Extensions.Configuration.IConfiguration>(configuration)
-				.AddAllConfigurations(configuration)
-				.AddConfiguration<Microsoft.Extensions.Hosting.ConsoleLifetimeOptions>(configuration)
-				.AddConfiguration<Microsoft.Extensions.Hosting.HostOptions>(configuration)
+				.AddSingleton<Microsoft.Extensions.Configuration.IConfiguration>(configurationRoot)
+				.AddAllConfigurations(configurationRoot)
+				.AddConfiguration<Microsoft.Extensions.Hosting.ConsoleLifetimeOptions>(configurationRoot)
+				.AddConfiguration<Microsoft.Extensions.Hosting.HostOptions>(configurationRoot)
 
 				//.AddSingleton<Microsoft.Extensions.Logging.ILoggerFactory, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory>()
 				.AddSingleton<Microsoft.Extensions.Logging.ILoggerFactory, Microsoft.Extensions.Logging.LoggerFactory>()
@@ -57,14 +57,14 @@ namespace ISI.ServiceExample.Api.Tests
 				.AddSingleton<Microsoft.Extensions.Caching.Memory.IMemoryCache>(provider => new Microsoft.Extensions.Caching.Memory.MemoryCache(new Microsoft.Extensions.Caching.Memory.MemoryCacheOptions()))
 				.AddSingleton<ISI.Extensions.Caching.ICacheManager, ISI.Extensions.Caching.CacheManager<Microsoft.Extensions.Caching.Memory.IMemoryCache>>()
 
-				.AddMessageBus(configuration)
-				.AddConfigurationRegistrations(configuration)
-				.ProcessServiceRegistrars()
+				.AddMessageBus(configurationRoot)
+				.AddConfigurationRegistrations(configurationRoot)
+				.ProcessServiceRegistrars(configurationRoot)
 				;
 
-			configuration.AddAllConfigurations(services);
+			configurationRoot.AddAllConfigurations(services);
 
-			ServiceProvider = services.BuildServiceProvider(configuration);
+			ServiceProvider = services.BuildServiceProvider(configurationRoot);
 		}
 	}
 }

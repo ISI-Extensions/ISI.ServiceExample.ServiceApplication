@@ -25,24 +25,33 @@ namespace ISI.ServiceExample.Repository
 {
 	public partial class ServiceExampleRepository : IServiceExampleRepository
 	{
+		protected Configuration Configuration { get; }
+
 		protected Microsoft.Extensions.Logging.ILogger Logger { get; }
 		protected ISI.Extensions.DateTimeStamper.IDateTimeStamper DateTimeStamper { get; }
 
+		protected ISI.ServiceExample.Repository.IRecordManagerMigrationTool RecordManagerMigrationTool { get; }
 		protected IMoreComplexObjectRecordManager MoreComplexObjectRecordManager { get; }
 		protected IComplexObjectRecordManager ComplexObjectRecordManager { get; }
 		protected ISimpleObjectRecordManager SimpleObjectRecordManager { get; }
 		protected ICachedObjectRecordManager CachedObjectRecordManager { get; }
 
 		public ServiceExampleRepository(
+			Configuration configuration,
 			Microsoft.Extensions.Logging.ILogger logger,
 			ISI.Extensions.DateTimeStamper.IDateTimeStamper dateTimeStamper,
+			ISI.ServiceExample.Repository.IRecordManagerMigrationTool recordManagerMigrationTool,
 			IMoreComplexObjectRecordManager moreComplexObjectRecordManager,
 			IComplexObjectRecordManager complexObjectRecordManager,
 			ISimpleObjectRecordManager simpleObjectRecordManager,
 			ICachedObjectRecordManager cachedObjectRecordManager)
 		{
+			Configuration = configuration;
+
 			Logger = logger;
 			DateTimeStamper = dateTimeStamper;
+			
+			RecordManagerMigrationTool = recordManagerMigrationTool;
 
 			MoreComplexObjectRecordManager = moreComplexObjectRecordManager;
 			ComplexObjectRecordManager = complexObjectRecordManager;

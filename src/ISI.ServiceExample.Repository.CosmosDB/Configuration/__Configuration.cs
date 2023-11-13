@@ -22,9 +22,11 @@ using ISI.Extensions.Extensions;
 
 namespace ISI.ServiceExample.Repository.CosmosDB
 {
-	[ISI.Extensions.ConfigurationHelper.Configuration("ISI.ServiceExample.Repository.CosmosDB")]
+	[ISI.Extensions.ConfigurationHelper.Configuration(ConfigurationSectionName)]
 	public partial class Configuration : ISI.Extensions.ConfigurationHelper.IConfiguration
 	{
+		public const string ConfigurationSectionName = "ISI.ServiceExample.Repository.CosmosDB";
+		
 		public string ConnectionString { get; set; } = "ISI.ServiceExample";
 	}
 }
