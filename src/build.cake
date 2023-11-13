@@ -205,11 +205,6 @@ Task("Package")
 			SubDirectory = "ISI",
 			PackageComponents = new ISI.Cake.Addin.PackageComponents.IPackageComponent[] 
 			{
-				new ISI.Cake.Addin.PackageComponents.PackageComponentConsoleApplication()
-				{
-					ProjectFullName = File("./ISI.ServiceExample.MigrationTool.SqlServer/ISI.ServiceExample.MigrationTool.SqlServer.csproj").Path.FullPath,
-					IconFileName = "Lantern.ico",
-				},
 				new ISI.Cake.Addin.PackageComponents.PackageComponentWindowsService()
 				{
 					ProjectFullName = rootProjectFile.Path.FullPath,
@@ -294,15 +289,6 @@ Task("Production-Deploy")
 			ConfigurationKey = "Production",
 			Components = new ISI.Cake.Addin.DeploymentManager.IDeployComponent[]
 			{
-				new ISI.Cake.Addin.DeploymentManager.DeployComponentConsoleApplication()
-				{
-					PackageFolder = "ISI\\ISI.ServiceExample.MigrationTool.SqlServer",
-					DeployToSubfolder = "ISI.ServiceExample.MigrationTool.SqlServer",
-					DeployToSubfolderIconFileName = "Lantern.ico",
-					ConsoleApplicationExe = "ISI.ServiceExample.MigrationTool.SqlServer.exe",
-					ExecuteConsoleApplicationAfterInstall = true,
-					ExecuteConsoleApplicationAfterInstallArguments = "-noWaitAtFinish",
-				},
 				new ISI.Cake.Addin.DeploymentManager.DeployComponentWindowsService()
 				{
 					PackageFolder = "ISI\\ISI.ServiceExample.ServiceApplication",
