@@ -53,13 +53,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
-    <PackageReference Include="ISI.Extensions" Version="10.0.8729.363" />
-    <PackageReference Include="ISI.Extensions.AspNetCore" Version="10.0.8729.363" />
-    <PackageReference Include="ISI.Extensions.Caching.MessageBus" Version="10.0.8729.363" />
-    <PackageReference Include="ISI.Extensions.Caching.Redis" Version="10.0.8729.363" />
-    <PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.8729.363" />
-    <PackageReference Include="ISI.Extensions.MessageBus.MassTransit.RabbitMQ" Version="10.0.8729.363" />
-    <PackageReference Include="ISI.Extensions.Topshelf" Version="10.0.8729.363" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.8734.2726" />
+    <PackageReference Include="ISI.Extensions.AspNetCore" Version="10.0.8734.2726" />
+    <PackageReference Include="ISI.Extensions.Caching.MessageBus" Version="10.0.8734.2726" />
+    <PackageReference Include="ISI.Extensions.Caching.Redis" Version="10.0.8734.2726" />
+    <PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.8734.2726" />
+    <PackageReference Include="ISI.Extensions.MessageBus.MassTransit.RabbitMQ" Version="10.0.8734.2726" />
+    <PackageReference Include="ISI.Extensions.Topshelf" Version="10.0.8734.2726" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
@@ -86,7 +86,7 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Serilog.Formatting.Elasticsearch" Version="9.0.3" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.4.0" />
