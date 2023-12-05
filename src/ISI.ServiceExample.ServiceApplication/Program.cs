@@ -37,6 +37,8 @@ namespace ISI.ServiceExample.ServiceApplication
 	{
 		public static int Main(string[] args)
 		{
+			System.AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+
 			var configurationBuilder = new Microsoft.Extensions.Configuration.ConfigurationBuilder();
 
 			var configurationsPath = string.Format("Configuration{0}", System.IO.Path.DirectorySeparatorChar);
@@ -122,6 +124,20 @@ namespace ISI.ServiceExample.ServiceApplication
 					});
 				});
 			});
+		}
+
+		private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+		{
+			try
+			{
+				var exception = unhandledExceptionEventArgs.ExceptionObject as Exception ?? new Exception(string.Format("An unhandled exception occurred in this application: {0}", unhandledExceptionEventArgs.ExceptionObject));
+
+				Serilog.Log.Logger.Error(exception, "Unhandled Exception");
+			}
+			catch
+			{
+				// do not terminate any thread
+			}
 		}
 	}
 }
