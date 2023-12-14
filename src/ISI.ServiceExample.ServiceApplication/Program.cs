@@ -37,19 +37,7 @@ namespace ISI.ServiceExample.ServiceApplication
 	{
 		public static int Main(string[] args)
 		{
-#if !DEBUG
-			var commandLineArgs = new HashSet<string>(args ?? Array.Empty<string>(), StringComparer.InvariantCultureIgnoreCase);
-
-			if (!commandLineArgs.Contains("-debug"))
-			{
-				if(ISI.Extensions.AppDomain.TryUseCustomAppDomain(CurrentDomainOnUnhandledException, args, out var exitCode))
-				{
-					return exitCode;
-				}
-			}
-#else
 			System.AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-#endif
 
 			var configurationBuilder = new Microsoft.Extensions.Configuration.ConfigurationBuilder();
 
