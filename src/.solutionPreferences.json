@@ -1,0 +1,3 @@
+{
+	"executeBuildScriptTargetAfterUpdateNugetPackages": "Nuget-Publish"
+}

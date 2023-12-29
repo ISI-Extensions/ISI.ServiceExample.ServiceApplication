@@ -223,7 +223,7 @@ Task("Package")
 		});		
 	});
 
-Task("Publish")
+Task("Nuget-Publish")
 	.IsDependentOn("Package")
 	.Does(() =>
 	{
@@ -234,7 +234,12 @@ Task("Publish")
 			NupkgPaths = nupkgFiles,
 			Settings = settings,
 		});
+	});
 
+Task("Publish")
+	.IsDependentOn("Nuget-Publish")
+	.Does(() =>
+	{
 		var buildArtifactsApiKey = GetBuildArtifactsApiKey(new ISI.Cake.Addin.BuildArtifacts.GetBuildArtifactsApiKeyUsingSettingsActiveDirectoryRequest()
 		{
 			Settings = settings,
