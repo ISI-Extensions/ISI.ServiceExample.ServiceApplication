@@ -26,16 +26,16 @@ namespace ISI.ServiceExample.Api.Tests
 
 			var configurationsPath = string.Format("Configuration{0}", System.IO.Path.DirectorySeparatorChar);
 
-			var activeEnvironment = configurationBuilder.GetActiveEnvironmentConfig($"{configurationsPath}isi.extensions.environmentsConfig.json");
+			var activeEnvironmentConfiguration = configurationBuilder.GetActiveEnvironmentConfiguration($"{configurationsPath}isi.extensions.environmentsConfig.json");
 
 			configurationBuilder.SetBasePath(System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location));
 			configurationBuilder.AddJsonFile("appsettings.json", optional: false);
-			configurationBuilder.AddJsonFiles(activeEnvironment.ActiveEnvironments, environment => $"appsettings.{environment}.json");
+			configurationBuilder.AddJsonFiles(activeEnvironmentConfiguration.ActiveEnvironments, environment => $"appsettings.{environment}.json");
 
 			var connectionStringPath = string.Format("Configuration{0}", System.IO.Path.DirectorySeparatorChar);
 
 			configurationBuilder.AddClassicConnectionStringsSectionFile($"{connectionStringPath}connectionStrings.config");
-			configurationBuilder.AddClassicConnectionStringsSectionFiles(activeEnvironment.ActiveEnvironments, environment => $"{connectionStringPath}connectionStrings.{environment}.config");
+			configurationBuilder.AddClassicConnectionStringsSectionFiles(activeEnvironmentConfiguration.ActiveEnvironments, environment => $"{connectionStringPath}connectionStrings.{environment}.config");
 
 			var configurationRoot = configurationBuilder.Build().ApplyConfigurationValueReaders();
 
