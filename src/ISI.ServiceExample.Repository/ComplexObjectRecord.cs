@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 namespace ISI.ServiceExample.Repository
 {
 	[ISI.Extensions.Repository.Record(Schema = "Example",TableName = "ComplexObjects")]
-	public class ComplexObjectRecord : ISI.Extensions.Repository.IRecordManagerPrimaryKeyRecord<Guid>, ISI.Extensions.Repository.IRecordManagerRecordWithArchiveDateTime, ISI.Extensions.Repository.IRecordIndexDescriptions<ComplexObjectRecord>
+	public class ComplexObjectRecord : ISI.Extensions.Repository.IRecordManagerPrimaryKeyRecord<Guid>, ISI.Extensions.Repository.IRecordManagerRecordWithArchive, ISI.Extensions.Repository.IRecordIndexDescriptions<ComplexObjectRecord>
 	{
 		[ISI.Extensions.Repository.PrimaryKey]
 		[ISI.Extensions.Repository.RecordProperty(ColumnName = "ComplexObjectUuid")]
@@ -41,8 +41,6 @@ namespace ISI.ServiceExample.Repository
 		public DateTime ModifiedOnUtc { get; set; }
 
 		Guid ISI.Extensions.Repository.IRecordManagerPrimaryKeyRecord<Guid>.PrimaryKey => ComplexObjectUuid;
-
-		DateTime ISI.Extensions.Repository.IRecordManagerRecordWithArchiveDateTime.ArchiveDateTime => ModifiedOnUtc;
 
 		ISI.Extensions.Repository.RecordIndexCollection<ComplexObjectRecord> ISI.Extensions.Repository.IRecordIndexDescriptions<ComplexObjectRecord>.GetRecordIndexes()
 		{

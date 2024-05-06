@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 namespace ISI.ServiceExample.Repository
 {
 	[ISI.Extensions.Repository.Record(Schema = "Example",TableName = "CachedObjects")]
-	public class CachedObjectRecord : ISI.Extensions.Repository.IRecordManagerPrimaryKeyRecord<Guid>, ISI.Extensions.Repository.IRecordManagerRecordWithArchiveDateTime, ISI.Extensions.Repository.IRecordIndexDescriptions<CachedObjectRecord>
+	public class CachedObjectRecord : ISI.Extensions.Repository.IRecordManagerPrimaryKeyRecord<Guid>, ISI.Extensions.Repository.IRecordManagerRecordWithArchive, ISI.Extensions.Repository.IRecordIndexDescriptions<CachedObjectRecord>
 	{
 		[ISI.Extensions.Repository.PrimaryKey]
 		[ISI.Extensions.Repository.RecordProperty(ColumnName = "CachedObjectUuid")]
@@ -41,8 +41,6 @@ namespace ISI.ServiceExample.Repository
 		public DateTime ModifiedOnUtc { get; set; }
 
 		Guid ISI.Extensions.Repository.IRecordManagerPrimaryKeyRecord<Guid>.PrimaryKey => CachedObjectUuid;
-
-		DateTime ISI.Extensions.Repository.IRecordManagerRecordWithArchiveDateTime.ArchiveDateTime => ModifiedOnUtc;
 
 		ISI.Extensions.Repository.RecordIndexCollection<CachedObjectRecord> ISI.Extensions.Repository.IRecordIndexDescriptions<CachedObjectRecord>.GetRecordIndexes()
 		{

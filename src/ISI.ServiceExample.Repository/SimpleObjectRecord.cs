@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 namespace ISI.ServiceExample.Repository
 {
 	[ISI.Extensions.Repository.Record(Schema = "Example",TableName = "SimpleObjects")]
-	public class SimpleObjectRecord : ISI.Extensions.Repository.IRecordManagerPrimaryKeyRecord<Guid>, ISI.Extensions.Repository.IRecordManagerRecordWithArchiveDateTime, ISI.Extensions.Repository.IRecordIndexDescriptions<SimpleObjectRecord>
+	public class SimpleObjectRecord : ISI.Extensions.Repository.IRecordManagerPrimaryKeyRecord<Guid>, ISI.Extensions.Repository.IRecordManagerRecordWithArchive, ISI.Extensions.Repository.IRecordIndexDescriptions<SimpleObjectRecord>
 	{
 		[ISI.Extensions.Repository.PrimaryKey]
 		[ISI.Extensions.Repository.RecordProperty(ColumnName = "SimpleObjectUuid")]
@@ -47,8 +47,6 @@ namespace ISI.ServiceExample.Repository
 		public string ModifiedBy { get; set; }
 
 		Guid ISI.Extensions.Repository.IRecordManagerPrimaryKeyRecord<Guid>.PrimaryKey => SimpleObjectUuid;
-
-		DateTime ISI.Extensions.Repository.IRecordManagerRecordWithArchiveDateTime.ArchiveDateTime => ModifiedOnUtc;
 
 		ISI.Extensions.Repository.RecordIndexCollection<SimpleObjectRecord> ISI.Extensions.Repository.IRecordIndexDescriptions<SimpleObjectRecord>.GetRecordIndexes()
 		{
