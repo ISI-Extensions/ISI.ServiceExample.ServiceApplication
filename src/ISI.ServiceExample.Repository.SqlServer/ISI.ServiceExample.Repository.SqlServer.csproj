@@ -16,8 +16,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
-    <PackageReference Include="ISI.Extensions.Repository.SqlServer" Version="10.0.8901.26546" />
-    <PackageReference Include="ISI.Extensions" Version="10.0.8901.26546" />
+    <PackageReference Include="ISI.Extensions.Repository.SqlServer" Version="10.0.8908.26096" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.8908.26096" />
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
