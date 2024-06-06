@@ -13,12 +13,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 #endregion
 
-using ISI.Extensions.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ISI.Extensions.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MESSAGEBUS = ISI.Services.ServiceExample.SerializableModels.MessageBus.ServiceExampleApiV1;
 
 namespace ISI.ServiceExample.ServiceApplication.MessageBus
@@ -27,31 +29,65 @@ namespace ISI.ServiceExample.ServiceApplication.MessageBus
 	{
 		public class ServiceExampleApiV1
 		{
+			private static ISI.Services.ServiceExample.Configuration _configuration = null;
+			private static ISI.Services.ServiceExample.Configuration Configuration => _configuration ??= ISI.Extensions.ServiceLocator.Current.GetService<ISI.Services.ServiceExample.Configuration>();
+
+			private static Microsoft.Extensions.Logging.ILogger _logger = null;
+			private static Microsoft.Extensions.Logging.ILogger Logger => _logger ??= ISI.Extensions.ServiceLocator.Current.GetService<Microsoft.Extensions.Logging.ILogger>();
+
+			private static bool IsAuthorized(ISI.Extensions.MessageBus.MessageBusMessageHeaderCollection headers, object request)
+			{
+				var isAuthorized = true;
+
+				if (!string.IsNullOrWhiteSpace(Configuration.ServiceExampleApiToken))
+				{
+					headers ??= new ISI.Extensions.MessageBus.MessageBusMessageHeaderCollection();
+
+					if (headers.TryGetValue(ISI.Extensions.MessageBus.MessageBusMessageHeaderCollection.Keys.Authorization, out var apiKey))
+					{
+						apiKey = apiKey.TrimStart(ISI.Extensions.MessageBus.MessageBusMessageHeaderCollection.Keys.Bearer).Trim();
+
+						isAuthorized = string.Equals(Configuration.ServiceExampleApiToken, apiKey, StringComparison.InvariantCultureIgnoreCase);
+					}
+					else
+					{
+						isAuthorized = false;
+					}
+				}
+
+				if (!isAuthorized)
+				{
+					Logger.LogWarning($"MessageBus, Request not Authorized, request type: {request.GetType().AssemblyQualifiedNameWithoutVersion()}");
+				}
+
+				return isAuthorized;
+			}
+
 			public static ISI.Extensions.MessageBus.IMessageBusBuildRequest GetAddSubscriptions()
 			{
 				var response = new ISI.Extensions.MessageBus.DefaultMessageBusBuildRequest();
 
 				response.AddSubscriptions.Add(messageQueueConfigurator =>
 				{
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetSimpleObjectsRequest, MESSAGEBUS.SetSimpleObjectsResponse>(async (service, request, cancellationToken) => await service.SetSimpleObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetSimpleObjectsRequest, MESSAGEBUS.GetSimpleObjectsResponse>(async (service, request, cancellationToken) => await service.GetSimpleObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListSimpleObjectsRequest, MESSAGEBUS.ListSimpleObjectsResponse>(async (service, request, cancellationToken) => await service.ListSimpleObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindSimpleObjectsByNameRequest, MESSAGEBUS.FindSimpleObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindSimpleObjectsByNameAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetSimpleObjectsRequest, MESSAGEBUS.SetSimpleObjectsResponse>(async (service, request, cancellationToken) => await service.SetSimpleObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetSimpleObjectsRequest, MESSAGEBUS.GetSimpleObjectsResponse>(async (service, request, cancellationToken) => await service.GetSimpleObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListSimpleObjectsRequest, MESSAGEBUS.ListSimpleObjectsResponse>(async (service, request, cancellationToken) => await service.ListSimpleObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindSimpleObjectsByNameRequest, MESSAGEBUS.FindSimpleObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindSimpleObjectsByNameAsync(request, cancellationToken), IsAuthorized);
 
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetComplexObjectsRequest, MESSAGEBUS.SetComplexObjectsResponse>(async (service, request, cancellationToken) => await service.SetComplexObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetComplexObjectsRequest, MESSAGEBUS.GetComplexObjectsResponse>(async (service, request, cancellationToken) => await service.GetComplexObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListComplexObjectsRequest, MESSAGEBUS.ListComplexObjectsResponse>(async (service, request, cancellationToken) => await service.ListComplexObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindComplexObjectsByNameRequest, MESSAGEBUS.FindComplexObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindComplexObjectsByNameAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetComplexObjectsRequest, MESSAGEBUS.SetComplexObjectsResponse>(async (service, request, cancellationToken) => await service.SetComplexObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetComplexObjectsRequest, MESSAGEBUS.GetComplexObjectsResponse>(async (service, request, cancellationToken) => await service.GetComplexObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListComplexObjectsRequest, MESSAGEBUS.ListComplexObjectsResponse>(async (service, request, cancellationToken) => await service.ListComplexObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindComplexObjectsByNameRequest, MESSAGEBUS.FindComplexObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindComplexObjectsByNameAsync(request, cancellationToken), IsAuthorized);
 
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetMoreComplexObjectsRequest, MESSAGEBUS.SetMoreComplexObjectsResponse>(async (service, request, cancellationToken) => await service.SetMoreComplexObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetMoreComplexObjectsRequest, MESSAGEBUS.GetMoreComplexObjectsResponse>(async (service, request, cancellationToken) => await service.GetMoreComplexObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListMoreComplexObjectsRequest, MESSAGEBUS.ListMoreComplexObjectsResponse>(async (service, request, cancellationToken) => await service.ListMoreComplexObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindMoreComplexObjectsByNameRequest, MESSAGEBUS.FindMoreComplexObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindMoreComplexObjectsByNameAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetMoreComplexObjectsRequest, MESSAGEBUS.SetMoreComplexObjectsResponse>(async (service, request, cancellationToken) => await service.SetMoreComplexObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetMoreComplexObjectsRequest, MESSAGEBUS.GetMoreComplexObjectsResponse>(async (service, request, cancellationToken) => await service.GetMoreComplexObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListMoreComplexObjectsRequest, MESSAGEBUS.ListMoreComplexObjectsResponse>(async (service, request, cancellationToken) => await service.ListMoreComplexObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindMoreComplexObjectsByNameRequest, MESSAGEBUS.FindMoreComplexObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindMoreComplexObjectsByNameAsync(request, cancellationToken), IsAuthorized);
 
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetCachedObjectsRequest, MESSAGEBUS.SetCachedObjectsResponse>(async (service, request, cancellationToken) => await service.SetCachedObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetCachedObjectsRequest, MESSAGEBUS.GetCachedObjectsResponse>(async (service, request, cancellationToken) => await service.GetCachedObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListCachedObjectsRequest, MESSAGEBUS.ListCachedObjectsResponse>(async (service, request, cancellationToken) => await service.ListCachedObjectsAsync(request, cancellationToken));
-					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindCachedObjectsByNameRequest, MESSAGEBUS.FindCachedObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindCachedObjectsByNameAsync(request, cancellationToken));
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.SetCachedObjectsRequest, MESSAGEBUS.SetCachedObjectsResponse>(async (service, request, cancellationToken) => await service.SetCachedObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.GetCachedObjectsRequest, MESSAGEBUS.GetCachedObjectsResponse>(async (service, request, cancellationToken) => await service.GetCachedObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.ListCachedObjectsRequest, MESSAGEBUS.ListCachedObjectsResponse>(async (service, request, cancellationToken) => await service.ListCachedObjectsAsync(request, cancellationToken), IsAuthorized);
+					messageQueueConfigurator.Subscribe<Controllers.ServiceExampleApiV1Controller, MESSAGEBUS.FindCachedObjectsByNameRequest, MESSAGEBUS.FindCachedObjectsByNameResponse>(async (service, request, cancellationToken) => await service.FindCachedObjectsByNameAsync(request, cancellationToken), IsAuthorized);
 				});
 
 				return response;

@@ -38,7 +38,7 @@ namespace ISI.Services.ServiceExample
 				SimpleObjectUuids = request.SimpleObjectUuids.ToNullCheckedArray(),
 			};
 
-			var serviceResponse = await MessageBus.PublishAsync<GetSimpleObjectsRequest, GetSimpleObjectsResponse>(serviceRequest, cancellationToken: cancellationToken);
+			var serviceResponse = await MessageBus.PublishAsync<GetSimpleObjectsRequest, GetSimpleObjectsResponse>(serviceRequest, GetMessageBusHeaders(request), cancellationToken: cancellationToken);
 
 			response.SimpleObjects = serviceResponse.SimpleObjects.NullCheckedSelect(Convert);
 

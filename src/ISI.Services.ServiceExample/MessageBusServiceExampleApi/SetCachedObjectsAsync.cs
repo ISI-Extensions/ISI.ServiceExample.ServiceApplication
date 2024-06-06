@@ -38,7 +38,7 @@ namespace ISI.Services.ServiceExample
 				CachedObjects = request.CachedObjects.ToNullCheckedArray(Convert),
 			};
 
-			var serviceResponse = await MessageBus.PublishAsync<SetCachedObjectsRequest, SetCachedObjectsResponse>(serviceRequest, cancellationToken: cancellationToken);
+			var serviceResponse = await MessageBus.PublishAsync<SetCachedObjectsRequest, SetCachedObjectsResponse>(serviceRequest, GetMessageBusHeaders(request), cancellationToken: cancellationToken);
 
 			response.CachedObjects = serviceResponse.CachedObjects.NullCheckedSelect(Convert);
 

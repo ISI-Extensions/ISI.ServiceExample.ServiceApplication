@@ -35,7 +35,7 @@ namespace ISI.Services.ServiceExample
 			
 			var serviceRequest = new MESSAGEBUS.ListSimpleObjectsRequest();
 
-			var serviceResponse = await MessageBus.PublishAsync<ListSimpleObjectsRequest, ListSimpleObjectsResponse>(serviceRequest, cancellationToken: cancellationToken);
+			var serviceResponse = await MessageBus.PublishAsync<ListSimpleObjectsRequest, ListSimpleObjectsResponse>(serviceRequest, GetMessageBusHeaders(request), cancellationToken: cancellationToken);
 
 			response.SimpleObjects = serviceResponse.SimpleObjects.NullCheckedSelect(Convert);
 

@@ -37,7 +37,7 @@ namespace ISI.Services.ServiceExample
 			{
 				var serviceRequest = new MESSAGEBUS.ListCachedObjectsRequest();
 
-				var serviceResponse = await MessageBus.PublishAsync<ListCachedObjectsRequest, ListCachedObjectsResponse>(serviceRequest, cancellationToken: cancellationToken);
+				var serviceResponse = await MessageBus.PublishAsync<ListCachedObjectsRequest, ListCachedObjectsResponse>(serviceRequest, GetMessageBusHeaders(request), cancellationToken: cancellationToken);
 
 				return serviceResponse.CachedObjects.ToNullCheckedArray(Convert, NullCheckCollectionResult.Empty);
 			}, null, null, null, false);

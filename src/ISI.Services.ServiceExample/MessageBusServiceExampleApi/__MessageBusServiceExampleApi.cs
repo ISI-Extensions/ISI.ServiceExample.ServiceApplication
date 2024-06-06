@@ -28,17 +28,20 @@ namespace ISI.Services.ServiceExample
 {
 	public partial class MessageBusServiceExampleApi : IServiceExampleApi
 	{
+		protected Configuration Configuration { get; }
 		protected Microsoft.Extensions.Logging.ILogger Logger { get; }
 		protected ISI.Extensions.DateTimeStamper.IDateTimeStamper DateTimeStamper { get; }
 		protected ISI.Extensions.Caching.ICacheManager CacheManager { get; }
 		protected ISI.Extensions.MessageBus.IMessageBus MessageBus { get; }
 
 		public MessageBusServiceExampleApi(
+			Configuration configuration,
 			Microsoft.Extensions.Logging.ILogger logger,
 			ISI.Extensions.DateTimeStamper.IDateTimeStamper dateTimeStamper,
 			ISI.Extensions.Caching.ICacheManager cacheManager,
 			ISI.Extensions.MessageBus.IMessageBus messageBus)
 		{
+			Configuration = configuration;
 			Logger = logger;
 			DateTimeStamper = dateTimeStamper;
 			CacheManager = cacheManager;

@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace ISI.Services.ServiceExample.DataTransferObjects.ServiceExampleApi
 {
-	public class FindCachedObjectsByNameRequest
+	public class FindCachedObjectsByNameRequest : IRequest
 	{
 		public IEnumerable<string> Names { get; set; }
 	}

@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace ISI.Services.ServiceExample.DataTransferObjects.ServiceExampleApi
 {
-	public class FindMoreComplexObjectsByNameRequest
+	public class FindMoreComplexObjectsByNameRequest : IRequest
 	{
 		public IEnumerable<string> Names { get; set; }
 	}

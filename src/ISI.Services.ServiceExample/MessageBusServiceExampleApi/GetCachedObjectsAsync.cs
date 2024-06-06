@@ -43,7 +43,7 @@ namespace ISI.Services.ServiceExample
 						CachedObjectUuids = cachedObjectUuids.ToNullCheckedArray(),
 					};
 
-					var serviceResponse = await MessageBus.PublishAsync<GetCachedObjectsRequest, GetCachedObjectsResponse>(serviceRequest, cancellationToken: cancellationToken);
+					var serviceResponse = await MessageBus.PublishAsync<GetCachedObjectsRequest, GetCachedObjectsResponse>(serviceRequest, GetMessageBusHeaders(request), cancellationToken: cancellationToken);
 
 					return serviceResponse.CachedObjects.ToNullCheckedDictionary(cachedObject => cachedObject.CachedObjectUuid, Convert);
 				}

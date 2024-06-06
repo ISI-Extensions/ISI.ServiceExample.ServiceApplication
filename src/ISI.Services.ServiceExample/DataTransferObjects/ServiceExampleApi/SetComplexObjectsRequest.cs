@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace ISI.Services.ServiceExample.DataTransferObjects.ServiceExampleApi
 {
-	public class SetComplexObjectsRequest
+	public class SetComplexObjectsRequest : IRequest
 	{
 		public IEnumerable<ComplexObject> ComplexObjects { get; set; }
 	}

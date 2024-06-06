@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace ISI.Services.ServiceExample.DataTransferObjects.ServiceExampleApi
 {
-	public class SetSimpleObjectsRequest
+	public class SetSimpleObjectsRequest : IRequest
 	{
 		public IEnumerable<SimpleObject> SimpleObjects { get; set; }
 	}

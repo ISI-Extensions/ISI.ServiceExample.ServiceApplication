@@ -38,7 +38,7 @@ namespace ISI.Services.ServiceExample
 				MoreComplexObjectUuids = request.MoreComplexObjectUuids.ToNullCheckedArray(),
 			};
 
-			var serviceResponse = await MessageBus.PublishAsync<GetMoreComplexObjectsRequest, GetMoreComplexObjectsResponse>(serviceRequest, cancellationToken: cancellationToken);
+			var serviceResponse = await MessageBus.PublishAsync<GetMoreComplexObjectsRequest, GetMoreComplexObjectsResponse>(serviceRequest, GetMessageBusHeaders(request), cancellationToken: cancellationToken);
 
 			response.MoreComplexObjects = serviceResponse.MoreComplexObjects.NullCheckedSelect(Convert);
 

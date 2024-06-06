@@ -1,4 +1,4 @@
-#region Copyright & License
+﻿#region Copyright & License
 /*
 Copyright (c) 2024, Integrated Solutions, Inc.
 All rights reserved.
@@ -15,14 +15,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace ISI.Services.ServiceExample.DataTransferObjects.ServiceExampleApi
+namespace ISI.Services.ServiceExample
 {
-	public class SetCachedObjectsRequest : IRequest
+	[ISI.Extensions.ConfigurationHelper.Configuration(ConfigurationSectionName)]
+	public partial class Configuration : ISI.Extensions.ConfigurationHelper.IConfiguration
 	{
-		public IEnumerable<CachedObject> CachedObjects { get; set; }
+		public const string ConfigurationSectionName = "ISI.ServiceExample.ServiceApplication";
+
+		[ISI.Extensions.EnvironmentConfigurationVariableName("ISI_SERVICE_EXAMPLE_API_TOKEN")]
+		public string ServiceExampleApiToken { get; set; }
 	}
 }

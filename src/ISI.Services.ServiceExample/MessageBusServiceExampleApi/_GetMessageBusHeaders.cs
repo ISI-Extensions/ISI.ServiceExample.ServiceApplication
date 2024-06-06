@@ -18,11 +18,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ISI.Extensions.Extensions;
+using ISI.Extensions.Caching.Extensions;
+using DOMAINENTITY = ISI.Services.ServiceExample;
+using DTOs = ISI.Services.ServiceExample.DataTransferObjects.ServiceExampleApi;
+using MESSAGEBUS = ISI.Services.ServiceExample.SerializableModels.MessageBus.ServiceExampleApiV1;
 
-namespace ISI.Services.ServiceExample.DataTransferObjects.ServiceExampleApi
+namespace ISI.Services.ServiceExample
 {
-	public class SetCachedObjectsRequest : IRequest
+	public partial class MessageBusServiceExampleApi
 	{
-		public IEnumerable<CachedObject> CachedObjects { get; set; }
+		private ISI.Extensions.MessageBus.MessageBusMessageHeaderCollection GetMessageBusHeaders(DTOs.IRequest request)
+		{
+			var headers = new ISI.Extensions.MessageBus.MessageBusMessageHeaderCollection();
+
+			if(!string.IsNullOrWhiteSpace(Configuration?.ServiceExampleApiToken))
+			{
+				headers.AddBearerAuthentication(Configuration.ServiceExampleApiToken);
+			}
+			else
+			{
+				headers.AddBearerAuthentication(Guid.NewGuid().Formatted(GuidExtensions.GuidFormat.WithHyphens));
+			}
+
+			return headers;
+		}
 	}
 }

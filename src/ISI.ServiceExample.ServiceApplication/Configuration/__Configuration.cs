@@ -10,7 +10,5 @@ namespace ISI.ServiceExample.ServiceApplication
 	public partial class Configuration : ISI.Extensions.ConfigurationHelper.IConfiguration
 	{
 		public const string ConfigurationSectionName = "ISI.ServiceExample.ServiceApplication";
-
-		public string ApiToken { get; set; }
 	}
 }

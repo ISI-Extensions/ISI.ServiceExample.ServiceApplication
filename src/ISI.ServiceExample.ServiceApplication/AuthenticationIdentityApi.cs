@@ -29,10 +29,10 @@ namespace ISI.ServiceExample.ServiceApplication
 		
 		public const string AdministratorRole = "ServiceExample-Administrator";
 
-		protected Configuration Configuration { get; }
+		protected ISI.Services.ServiceExample.Configuration Configuration { get; }
 		
 		public AuthenticationIdentityApi(
-			Configuration configuration)
+			ISI.Services.ServiceExample.Configuration configuration)
 		{
 			Configuration = configuration;
 		}
@@ -75,7 +75,7 @@ namespace ISI.ServiceExample.ServiceApplication
 		{
 			var response = new DTOs.ValidateApiKeyResponse();
 
-			if (string.Equals(request.ApiKey, Configuration.ApiToken, StringComparison.InvariantCultureIgnoreCase))
+			if (string.Equals(request.ApiKey, Configuration.ServiceExampleApiToken, StringComparison.InvariantCultureIgnoreCase))
 			{
 				response.UserUuid = ApiKeyUserUuid;
 			}
