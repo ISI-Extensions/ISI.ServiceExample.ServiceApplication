@@ -12,7 +12,7 @@
     <None Include="..\ISI.ServiceExample.licenseheader" Link="ISI.ServiceExample.licenseheader" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ISI.Extensions" Version="10.0.9009.25261" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.9012.41987" />
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
