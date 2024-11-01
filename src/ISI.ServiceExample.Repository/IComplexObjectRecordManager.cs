@@ -23,9 +23,9 @@ namespace ISI.ServiceExample.Repository
 {
 	public interface IComplexObjectRecordManager
 	{
-		Task<IEnumerable<ComplexObjectRecord>> UpsertRecordsAsync(IEnumerable<ComplexObjectRecord> records, System.Threading.CancellationToken cancellationToken = default);
-		Task<IEnumerable<ComplexObjectRecord>> GetRecordsAsync(IEnumerable<Guid> complexObjectUuids, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
-		Task<IEnumerable<ComplexObjectRecord>> ListRecordsAsync(int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
-		Task<IEnumerable<ComplexObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<ComplexObjectRecord> UpsertRecordsAsync(IEnumerable<ComplexObjectRecord> records, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<ComplexObjectRecord> GetRecordsAsync(IEnumerable<Guid> complexObjectUuids, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<ComplexObjectRecord> ListRecordsAsync(int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<ComplexObjectRecord> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
 	}
 }

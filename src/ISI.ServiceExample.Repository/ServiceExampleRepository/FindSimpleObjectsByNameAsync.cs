@@ -29,7 +29,7 @@ namespace ISI.ServiceExample.Repository
 		{
 			var response = new DTOs.FindSimpleObjectsByNameResponse();
 			
-			response.SimpleObjects = (await SimpleObjectRecordManager.FindRecordsByNameAsync(request.Names, cancellationToken: cancellationToken)).Select(Convert);
+			response.SimpleObjects = SimpleObjectRecordManager.FindRecordsByNameAsync(request.Names, cancellationToken: cancellationToken).ToNullCheckedArray(Convert, cancellationToken: cancellationToken);
 
 			return response;
 		}

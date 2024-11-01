@@ -24,7 +24,7 @@ namespace ISI.ServiceExample.Repository.PostgreSQL
 {
 	public partial class CachedObjectRecordManager
 	{
-		public async Task<IEnumerable<CachedObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default)
+		public async IAsyncEnumerable<CachedObjectRecord> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var filters = new ISI.Extensions.Repository.RecordWhereColumnCollection<CachedObjectRecord>();
 
@@ -32,7 +32,10 @@ namespace ISI.ServiceExample.Repository.PostgreSQL
 
 			var whereClause = GenerateWhereClause(filters);
 
-			return await FindRecordsAsync(whereClause, null, skip, take, cancellationToken: cancellationToken);
+			await foreach (var record in FindRecordsAsync(whereClause, cancellationToken: cancellationToken))
+			{
+				yield return record;
+			}
 		}
 	}
 }

@@ -23,9 +23,9 @@ namespace ISI.ServiceExample.Repository
 {
 	public interface ISimpleObjectRecordManager
 	{
-		Task<IEnumerable<SimpleObjectRecord>> UpsertRecordsAsync(IEnumerable<SimpleObjectRecord> records, System.Threading.CancellationToken cancellationToken = default);
-		Task<IEnumerable<SimpleObjectRecord>> GetRecordsAsync(IEnumerable<Guid> simpleObjectUuids, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
-		Task<IEnumerable<SimpleObjectRecord>> ListRecordsAsync(int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
-		Task<IEnumerable<SimpleObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<SimpleObjectRecord> UpsertRecordsAsync(IEnumerable<SimpleObjectRecord> records, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<SimpleObjectRecord> GetRecordsAsync(IEnumerable<Guid> simpleObjectUuids, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<SimpleObjectRecord> ListRecordsAsync(int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<SimpleObjectRecord> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
 	}
 }

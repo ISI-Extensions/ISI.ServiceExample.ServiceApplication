@@ -27,7 +27,9 @@ namespace ISI.ServiceExample.ServiceApplication
 {
 	public class Program
 	{
-		public const string AuthorizationPolicyName = "CookieAndBearerPolicy";
+		public const string AuthorizationPolicyName = "ServiceExamplePolicy";
+		public const string AuthorizationCookieName = "ServiceExample-Authentication";
+		public const string AuthorizationAuthorizationHeaderName = "ServiceExample-Authentication";
 
 		public static int Main(string[] args)
 		{
@@ -38,7 +40,12 @@ namespace ISI.ServiceExample.ServiceApplication
 				Args = args,
 			};
 
-			context.AddCookieAndBearerAuthentication("CookieAndBearerAuthentication", AuthorizationPolicyName, "ServiceExample-Authentication");
+			context.AddCookieAndBearerAuthentication(new()
+			{
+				PolicyName = AuthorizationPolicyName,
+				CookieName = AuthorizationCookieName,
+				ApiKeyHeaderName = AuthorizationAuthorizationHeaderName,
+			});
 
 			context.AddWebStartupConfigureServices(services =>
 			{

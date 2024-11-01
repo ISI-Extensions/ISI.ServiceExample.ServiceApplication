@@ -23,9 +23,9 @@ namespace ISI.ServiceExample.Repository
 {
 	public interface IMoreComplexObjectRecordManager
 	{
-		Task<IEnumerable<MoreComplexObjectRecord>> UpsertRecordsAsync(IEnumerable<MoreComplexObjectRecord> records, System.Threading.CancellationToken cancellationToken = default);
-		Task<IEnumerable<MoreComplexObjectRecord>> GetRecordsAsync(IEnumerable<Guid> MoreComplexObjectUuids, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
-		Task<IEnumerable<MoreComplexObjectRecord>> ListRecordsAsync(int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
-		Task<IEnumerable<MoreComplexObjectRecord>> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<MoreComplexObjectRecord> UpsertRecordsAsync(IEnumerable<MoreComplexObjectRecord> records, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<MoreComplexObjectRecord> GetRecordsAsync(IEnumerable<Guid> MoreComplexObjectUuids, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<MoreComplexObjectRecord> ListRecordsAsync(int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
+		IAsyncEnumerable<MoreComplexObjectRecord> FindRecordsByNameAsync(IEnumerable<string> names, int skip = 0, int take = -1, System.Threading.CancellationToken cancellationToken = default);
 	}
 }

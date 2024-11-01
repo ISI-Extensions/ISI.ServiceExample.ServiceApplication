@@ -29,7 +29,7 @@ namespace ISI.ServiceExample.Repository
 		{
 			var response = new DTOs.FindCachedObjectsByNameResponse();
 
-			response.CachedObjects = (await CachedObjectRecordManager.FindRecordsByNameAsync(request.Names, cancellationToken: cancellationToken)).Select(Convert);
+			response.CachedObjects = CachedObjectRecordManager.FindRecordsByNameAsync(request.Names, cancellationToken: cancellationToken).ToNullCheckedArray(Convert, cancellationToken: cancellationToken);
 
 			return response;
 		}
