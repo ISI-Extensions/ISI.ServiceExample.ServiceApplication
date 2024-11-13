@@ -20,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ISI.Platforms.AspNetCore.Extensions;
 using ISI.Platforms.Extensions;
+using ISI.Platforms.ServiceApplication.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,11 +28,11 @@ namespace ISI.ServiceExample.ServiceApplication
 {
 	public class Program
 	{
-		public const string AuthorizationPolicyName = "ServiceExamplePolicy";
+		public const string AuthorizationPolicyName = "ServiceExample-Policy";
 		public const string AuthorizationCookieName = "ServiceExample-Authentication";
 		public const string AuthorizationAuthorizationHeaderName = "ServiceExample-Authentication";
 
-		public static int Main(string[] args)
+		public static void Main(string[] args)
 		{
 			var context = new ISI.Platforms.ServiceApplicationContext(typeof(Program))
 			{
@@ -63,7 +64,16 @@ namespace ISI.ServiceExample.ServiceApplication
 				}
 			});
 
-			return ISI.Platforms.ServiceApplication.Startup.Main(context);
+			context.SetConfiguration();
+
+			if (!context.ServiceSetup())
+			{
+				var webApplication = context.CreateWebApplication();
+
+				webApplication.ConfigureWebApplication(context);
+
+				webApplication.Run();
+			}
 		}
 	}
 }
