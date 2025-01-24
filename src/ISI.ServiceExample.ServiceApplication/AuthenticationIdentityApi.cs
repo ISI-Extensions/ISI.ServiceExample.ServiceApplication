@@ -36,6 +36,10 @@ namespace ISI.ServiceExample.ServiceApplication
 		{
 			Configuration = configuration;
 		}
+				
+		public async Task InitializeAsync(System.Threading.CancellationToken cancellationToken = default)
+		{
+		}
 
 		public async Task<DTOs.ListRolesResponse> ListRolesAsync(DTOs.ListRolesRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
