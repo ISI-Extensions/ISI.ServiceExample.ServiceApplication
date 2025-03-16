@@ -11,9 +11,9 @@ var settings = GetSettings(settingsFullName);
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
-var solutionFile = File("./ISI.ServiceExample.ServiceApplication.sln");
+var solutionFile = File("./src/ISI.ServiceExample.ServiceApplication.slnx");
 var solution = ParseSolution(solutionFile);
-var rootProjectFile = File("./ISI.ServiceExample.ServiceApplication/ISI.ServiceExample.ServiceApplication.csproj");
+var rootProjectFile = File("./src/ISI.ServiceExample.ServiceApplication/ISI.ServiceExample.ServiceApplication.csproj");
 var rootAssemblyVersionKey = "ISI.ServiceExample";
 var artifactName = "ISI.ServiceExample.ServiceApplication";
 
@@ -28,9 +28,9 @@ var buildDateTimeStampVersion = new ISI.Extensions.Scm.DateTimeStampVersion(buil
 
 Information("BuildDateTimeStampVersion: {0}", buildDateTimeStampVersion);
 
-var nugetPackOutputDirectory = Argument("NugetPackOutputDirectory", System.IO.Path.GetFullPath("../Nuget"));
+var nugetPackOutputDirectory = Argument("NugetPackOutputDirectory", System.IO.Path.GetFullPath("./Nuget"));
 
-var buildArtifactZipFile = File(string.Format("../Publish/{0}.{1}.zip", artifactName, buildDateTimeStamp));
+var buildArtifactZipFile = File(string.Format("./Publish/{0}.{1}.zip", artifactName, buildDateTimeStamp));
 
 Task("Clean")
 	.Does(() =>
@@ -55,7 +55,7 @@ Task("NugetPackageRestore")
 		Information("Restoring Nuget Packages ...");
 		using(GetNugetLock())
 		{
-			NuGetRestore(solutionFile);
+			RestoreNugetPackages(solutionFile);
 		}
 	});
 
@@ -63,20 +63,12 @@ Task("Build")
 	.IsDependentOn("NugetPackageRestore")
 	.Does(() => 
 	{
-		SetAssemblyVersionFiles(assemblyVersions);
-
-		try
+		using(SetAssemblyVersionFiles(assemblyVersions))
 		{
-			MSBuild(solutionFile, configurator => configurator
-				.SetConfiguration(configuration)
-				.SetVerbosity(Verbosity.Quiet)
-				.SetMSBuildPlatform(MSBuildPlatform.x64)
-				.SetPlatformTarget(PlatformTarget.MSIL)
-				.WithTarget("Rebuild"));
-		}
-		finally
-		{
-			ResetAssemblyVersionFiles(assemblyVersions);
+			DotNetBuild(solutionFile, new DotNetBuildSettings()
+			{
+				Configuration = configuration,
+			});
 		}
 	});
 

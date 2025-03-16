@@ -1,0 +1,20 @@
+<Solution>
+  <Folder Name="/.build/">
+    <File Path="../build.cake" />
+  </Folder>
+  <Folder Name="/ISI.Services/">
+    <Project Path="ISI.Services.ServiceExample/ISI.Services.ServiceExample.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="ISI.ServiceExample.Api.Tests/ISI.ServiceExample.Api.Tests.csproj" />
+  <Project Path="ISI.ServiceExample.Api/ISI.ServiceExample.Api.csproj" />
+  <Project Path="ISI.ServiceExample.Repository.CosmosDB/ISI.ServiceExample.Repository.CosmosDB.csproj" />
+  <Project Path="ISI.ServiceExample.Repository.PostgreSQL/ISI.ServiceExample.Repository.PostgreSQL.csproj" />
+  <Project Path="ISI.ServiceExample.Repository.SqlServer/ISI.ServiceExample.Repository.SqlServer.csproj" />
+  <Project Path="ISI.ServiceExample.Repository.Tests/ISI.ServiceExample.Repository.Tests.csproj" />
+  <Project Path="ISI.ServiceExample.Repository/ISI.ServiceExample.Repository.csproj" />
+  <Project Path="ISI.ServiceExample.ServiceApplication/ISI.ServiceExample.ServiceApplication.csproj" />
+  <Project Path="ISI.ServiceExample/ISI.ServiceExample.csproj" />
+</Solution>
