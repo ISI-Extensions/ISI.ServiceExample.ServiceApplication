@@ -12,7 +12,7 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
 var solutionFile = File("./src/ISI.ServiceExample.ServiceApplication.slnx");
-var solution = ParseSolution(solutionFile);
+var solutionDetails = GetSolutionDetails(solutionFile);
 var rootProjectFile = File("./src/ISI.ServiceExample.ServiceApplication/ISI.ServiceExample.ServiceApplication.csproj");
 var rootAssemblyVersionKey = "ISI.ServiceExample";
 var artifactName = "ISI.ServiceExample.ServiceApplication";
@@ -37,7 +37,7 @@ Task("Clean")
 	{
 		Information("Cleaning Projects ...");
 
-		foreach(var projectPath in new HashSet<string>(solution.Projects.Select(p => p.Path.GetDirectory().ToString())))
+		foreach(var projectPath in new HashSet<string>(solutionDetails.ProjectDetailsSet.Select(project => project.ProjectDirectory)))
 		{
 			Information("Cleaning {0}", projectPath);
 			CleanDirectories(projectPath + "/**/bin/" + configuration);
@@ -129,16 +129,17 @@ Task("Package")
 		var sourceControlUrl = GetSolutionSourceControlUrl();
 		var nupkgFiles = new FilePathCollection();
 
-		foreach(var project in solution.Projects.Where(project => project.Path.FullPath.EndsWith(".csproj") && 
-																															project.Name.StartsWith("ISI.Services.") && 
-																															!project.Name.EndsWith(".Tests"))
-																						.OrderBy(project => project.Name, StringComparer.InvariantCultureIgnoreCase))
+		foreach(var project in solutionDetails.ProjectDetailsSet.Where(project => project.ProjectFullName.EndsWith(".csproj") && 
+																	project.ProjectName.StartsWith("ISI.Services.") && 
+																	!project.ProjectFullName.EndsWith(".Test") && 
+																	!project.ProjectFullName.EndsWith(".Tests") && 
+																	!project.ProjectFullName.EndsWith(".T4LocalContent")).OrderBy(project => project.ProjectName, StringComparer.InvariantCultureIgnoreCase))
 		{
-			Information(project.Name);
+			Information(project.ProjectName);
 
 			var nuspec = GenerateNuspecFromProject(new ISI.Cake.Addin.Nuget.GenerateNuspecFromProjectRequest()
 			{
-				ProjectFullName = project.Path.FullPath,
+				ProjectFullName =  System.IO.Path.GetFullPath(project.ProjectFullName),
 				TryGetPackageVersion = (string package, out string version) =>
 				{
 					if (package.StartsWith("ISI.Services", StringComparison.InvariantCultureIgnoreCase))
@@ -150,15 +151,15 @@ Task("Package")
 					version = string.Empty;
 					return false;
 				},
+				IncludeSBom = false,
 				Settings = settings,
 			}).Nuspec;
-
 			nuspec.Version = assemblyVersion;
 			nuspec.ProjectUri = GetNullableUri(sourceControlUrl);
-			nuspec.Title = project.Name;
-			nuspec.Description = project.Name;
+			nuspec.Title = project.ProjectName;
+			nuspec.Description = project.ProjectName;
 
-			var nuspecFile = File(project.Path.GetDirectory() + "/" + project.Name + ".nuspec");
+			var nuspecFile = File(project.ProjectDirectory + "/" + project.ProjectName + ".nuspec");
 
 			CreateNuspecFile(new ISI.Cake.Addin.Nuget.CreateNuspecFileRequest()
 			{
@@ -168,14 +169,14 @@ Task("Package")
 
 			NupkgPack(new ISI.Cake.Addin.Nuget.NupkgPackRequest()
 			{
-				NuspecFullName = nuspecFile.Path.FullPath,
-				CsProjFullName = project.Path.FullPath,
+				NuspecFullName = System.IO.Path.GetFullPath(nuspecFile.Path.FullPath),
+				CsProjFullName = System.IO.Path.GetFullPath(project.ProjectFullName),
 				OutputDirectory = nugetPackOutputDirectory,
 			});
 
 			DeleteFile(nuspecFile);
 
-			nupkgFiles.Add(File(nugetPackOutputDirectory + "/" + project.Name + "." + assemblyVersion + ".nupkg"));
+			nupkgFiles.Add(File(nugetPackOutputDirectory + "/" + project.ProjectName + "." + assemblyVersion + ".nupkg"));
 		}
 
 		if(settings.CodeSigning.DoCodeSigning)
