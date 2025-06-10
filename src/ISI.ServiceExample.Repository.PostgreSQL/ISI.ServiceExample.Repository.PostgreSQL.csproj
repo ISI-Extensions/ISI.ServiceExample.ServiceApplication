@@ -13,12 +13,12 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.22.0" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
-    <PackageReference Include="ISI.Extensions.Repository.PostgreSQL" Version="10.0.9286.20692" />
-    <PackageReference Include="ISI.Extensions" Version="10.0.9286.20692" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
+    <PackageReference Include="ISI.Extensions.Repository.PostgreSQL" Version="10.0.9292.38079" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.9292.38079" />
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
