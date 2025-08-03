@@ -17,8 +17,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.7" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.7" />
-    <PackageReference Include="ISI.Extensions.Repository.PostgreSQL" Version="10.0.9333.34554" />
-    <PackageReference Include="ISI.Extensions" Version="10.0.9333.34554" />
+    <PackageReference Include="ISI.Extensions.Repository.PostgreSQL" Version="10.0.9344.39732" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.9344.39732" />
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
