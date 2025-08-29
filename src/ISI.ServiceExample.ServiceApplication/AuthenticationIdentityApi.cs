@@ -23,7 +23,7 @@ using DTOs = ISI.Extensions.AuthenticationIdentity.DataTransferObjects;
  
 namespace ISI.ServiceExample.ServiceApplication
 {
-	public class AuthenticationIdentityApi : ISI.Extensions.IAuthenticationIdentityApi
+	public class AuthenticationIdentityApi : ISI.Platforms.AspNetCore.AbstractAuthenticationIdentityApi
 	{
 		public static Guid ApiKeyUserUuid = Guid.Parse("5f18eb6e-3854-4dad-893a-9db6bad02a73");
 		
@@ -37,11 +37,7 @@ namespace ISI.ServiceExample.ServiceApplication
 			Configuration = configuration;
 		}
 				
-		public async Task InitializeAsync(System.Threading.CancellationToken cancellationToken = default)
-		{
-		}
-
-		public async Task<DTOs.ListRolesResponse> ListRolesAsync(DTOs.ListRolesRequest request, System.Threading.CancellationToken cancellationToken = default)
+		public override async Task<DTOs.ListRolesResponse> ListRolesAsync(DTOs.ListRolesRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.ListRolesResponse();
 
@@ -53,7 +49,7 @@ namespace ISI.ServiceExample.ServiceApplication
 			return response;
 		}
 
-		public async Task<DTOs.GetUsersResponse> GetUsersAsync(DTOs.GetUsersRequest request, System.Threading.CancellationToken cancellationToken = default)
+		public override async Task<DTOs.GetUsersResponse> GetUsersAsync(DTOs.GetUsersRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.GetUsersResponse();
 
@@ -75,7 +71,7 @@ namespace ISI.ServiceExample.ServiceApplication
 			return response;
 		}
 
-		public async Task<DTOs.ValidateApiKeyResponse> ValidateApiKeyAsync(DTOs.ValidateApiKeyRequest request, System.Threading.CancellationToken cancellationToken = default)
+		public override async Task<DTOs.ValidateApiKeyResponse> ValidateApiKeyAsync(DTOs.ValidateApiKeyRequest request, System.Threading.CancellationToken cancellationToken = default)
 		{
 			var response = new DTOs.ValidateApiKeyResponse();
 
