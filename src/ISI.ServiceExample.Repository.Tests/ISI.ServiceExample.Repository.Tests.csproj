@@ -12,16 +12,16 @@
     <None Include="..\ISI.ServiceExample.licenseheader" Link="ISI.ServiceExample.licenseheader" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.10" />
     <PackageReference Include="NUnit" Version="4.4.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.9" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.10" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
-    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.9409.31621" />
-    <PackageReference Include="ISI.Extensions.Repository.SqlServer" Version="10.0.9409.31621" />
-    <PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.9409.31621" />
-    <PackageReference Include="ISI.Extensions" Version="10.0.9409.31621" />
+    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.9422.30120" />
+    <PackageReference Include="ISI.Extensions.Repository.SqlServer" Version="10.0.9422.30120" />
+    <PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.9422.30120" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.9422.30120" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ISI.ServiceExample\ISI.ServiceExample.csproj" />
