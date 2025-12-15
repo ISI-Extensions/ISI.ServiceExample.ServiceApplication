@@ -20,10 +20,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
-    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.9474.41190" />
-    <PackageReference Include="ISI.Extensions.Repository.SqlServer" Version="10.0.9474.41190" />
-    <PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.9474.41190" />
-    <PackageReference Include="ISI.Extensions" Version="10.0.9474.41190" />
+    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.9477.20253" />
+    <PackageReference Include="ISI.Extensions.Repository.SqlServer" Version="10.0.9477.20253" />
+    <PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.9477.20253" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.9477.20253" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ISI.ServiceExample\ISI.ServiceExample.csproj" />
