@@ -12,18 +12,18 @@
     <None Include="..\ISI.ServiceExample.licenseheader" Link="ISI.ServiceExample.licenseheader" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.2" />
     <PackageReference Include="NUnit" Version="4.4.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
-    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.9500.6999" />
-    <PackageReference Include="ISI.Extensions.Repository.SqlServer" Version="10.0.9500.6999" />
-    <PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.9500.6999" />
-    <PackageReference Include="ISI.Extensions" Version="10.0.9500.6999" />
+    <PackageReference Include="ISI.Extensions.DependencyInjection.Iunq" Version="10.0.9509.35421" />
+    <PackageReference Include="ISI.Extensions.Repository.SqlServer" Version="10.0.9509.35421" />
+    <PackageReference Include="ISI.Extensions.JsonSerialization.Newtonsoft" Version="10.0.9509.35421" />
+    <PackageReference Include="ISI.Extensions" Version="10.0.9509.35421" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ISI.ServiceExample\ISI.ServiceExample.csproj" />
