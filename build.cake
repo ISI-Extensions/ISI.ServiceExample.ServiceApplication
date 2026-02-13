@@ -131,9 +131,8 @@ Task("Package")
 
 		foreach(var project in solutionDetails.ProjectDetailsSet.Where(project => project.ProjectFullName.EndsWith(".csproj") && 
 																	project.ProjectName.StartsWith("ISI.Services.") && 
-																	!project.ProjectFullName.EndsWith(".Test") && 
-																	!project.ProjectFullName.EndsWith(".Tests") && 
-																	!project.ProjectFullName.EndsWith(".T4LocalContent")).OrderBy(project => project.ProjectName, StringComparer.InvariantCultureIgnoreCase))
+																	!project.ProjectName.EndsWith(".Test") && 
+																	!project.ProjectName.EndsWith(".Tests")).OrderBy(project => project.ProjectName, StringComparer.InvariantCultureIgnoreCase))
 		{
 			Information(project.ProjectName);
 
