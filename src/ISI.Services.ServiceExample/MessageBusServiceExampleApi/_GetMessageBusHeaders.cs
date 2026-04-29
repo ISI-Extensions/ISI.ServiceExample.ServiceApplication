@@ -34,7 +34,11 @@ namespace ISI.Services.ServiceExample
 
 			if(!string.IsNullOrWhiteSpace(Configuration?.ServiceExampleApiToken))
 			{
-				headers.AddBearerAuthentication(Configuration.ServiceExampleApiToken);
+				var serviceExampleApiToken = Configuration.ServiceExampleApiToken;
+
+				serviceExampleApiToken = (serviceExampleApiToken.StartsWith("%") && serviceExampleApiToken.EndsWith("%") ? ISI.Extensions.ConfigurationValueReader.GetValue(serviceExampleApiToken.Trim('%')) : serviceExampleApiToken);
+
+				headers.AddBearerAuthentication(serviceExampleApiToken);
 			}
 			else
 			{
